@@ -1,6 +1,4 @@
 const fastify = require("fastify")({ logger: true });
-const axios = require("axios");
-
 fastify.register(require("fastify-static"), {
   root: __dirname,
   prefix: "/",

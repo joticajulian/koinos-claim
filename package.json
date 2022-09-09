@@ -7,15 +7,12 @@
   },
   "dependencies": {
     "copyfiles": "^2.4.1",
-    "ethers": "^5.6.2",
     "koilib": "^5.0.0",
     "kondor-js": "^0.3.0"
   },
   "devDependencies": {
-    "axios": "^0.25.0",
     "eslint": "^6.7.2",
     "fastify": "^3.26.0",
-    "fastify-static": "^4.5.0",
-    "rimraf": "^3.0.2"
+    "fastify-static": "^4.5.0"
   }
 }
