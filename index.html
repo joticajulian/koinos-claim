@@ -282,8 +282,6 @@
           console.log(`transaction ${transaction.id} submitted. Receipt:`);
           console.log(receipt);
 
-          if (receipt.logs) throw new Error(receipt.logs.join(", "));
-
           notification.show(
             `transaction ${transaction.id} submitted. Waiting to be mined`
           );
