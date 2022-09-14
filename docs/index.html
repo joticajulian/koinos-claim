@@ -71,7 +71,7 @@
 
       function getClaimContract() {
         return new Contract({
-          id: "19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ",
+          id: "15XWhAV99fSmz8z9vrA5j9rwwBpXMPHkBQ",
           abi: {
             methods: {
               claim: {
@@ -213,7 +213,7 @@
         try {
           elClaimed.innerText = "Loading claim status...";
           const claimContract = getClaimContract().functions;
-          const claim = await claimContract.check_claim({
+          const { result: claim } = await claimContract.check_claim({
             eth_address: inputEthAddress.value,
           });
           if (!claim || !claim.value) {
@@ -222,7 +222,7 @@
             console.log(claim);
             throw new Error(errorMessage);
           }
-          elClaimed.innerText = `${utils.formatUnits(claim.value.token_amount)} tKoins ${clam.value.claimed ? "already claimed" : "ready to be claimed"}`;
+          elClaimed.innerText = `${utils.formatUnits(claim.value.token_amount, 8)} tKoins ${claim.value.claimed ? "already claimed" : "ready to be claimed"}`;
         } catch (error) {
           elClaimed.innerText = `Error: ${error.message}`;
         }
@@ -263,7 +263,7 @@
           const signer = getMetamaskProvider().getSigner();
           const message = `claim koins ${inputEthAddress.value}:${koinAddress}`;
           const signature = await signer.signMessage(message);
-          
+
           console.log(JSON.stringify({
             address: inputEthAddress.value,
             msg: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(message)),
@@ -273,11 +273,13 @@
           }, null, 2));
 
           const claimContract = getClaimContract().functions;
+          const { r, s, recoveryParam } = ethers.utils.splitSignature(signature);
+          const compactSignature = Number(31 + recoveryParam).toString(16) + r.slice(2) + s.slice(2);
           const { transaction, receipt } = await claimContract.claim({
             eth_address: inputEthAddress.value,
             koin_address: koinAddress,
-            signature,
-          })
+            signature: utils.encodeBase64url(utils.toUint8Array(compactSignature)),
+          });
           
           console.log(`transaction ${transaction.id} submitted. Receipt:`);
           console.log(receipt);
