@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
+
+:root {
+  --foreground-color: #f5f1f1;
+  --background-color: #120415;
+  --danger-color: #ff0000;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--foreground-color);
+    background-color: var(--background-color);
+    
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    color: var(--foreground-color);
+}
+
+p {
+  max-width: 20vw;
+  text-align: center;
+}
+input {
+  all: unset;
+  border: 1px solid var(--foreground-color);
+  padding: .5em;
+  border-radius: 4px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+button {
+    color: var(--foreground-color);
+    background: none;
+    padding: .7em 1.5em;
+    border-radius: 5px;
+    border: 1px solid var(--foreground-color);
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 1em;
+    margin: 1em;
+}
+
+.message {
+    font-size: 1em;
+    font-weight: 700;
+    margin: 1em;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    color: var(--danger-color);
+    border-radius: .2em;
+    padding: .2em 3em;
+}
+
+.button-85 {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: var(--foreground-color);
+  background: #000;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin: 3em;
+  font-size: 1.5em;
+  font-weight: lighter;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.button-85:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 4px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--background-color);
+  left: 0;
+  top: 0;
+  border-radius: 4px;
+}
