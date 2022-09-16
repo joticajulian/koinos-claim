@@ -33,6 +33,31 @@ input {
   border-radius: 4px;
 }
 
+button {
+  color: var(--foreground-color);
+  background: none;
+  padding: .7em 1.5em;
+  border-radius: 5px;
+  border: 1px solid var(--foreground-color);
+  text-decoration: none;
+  font-weight: 300;
+  font-size: 1em;
+  margin: 1em;
+}
+
+.button-link {
+  color: var(--foreground-color);
+  background: none;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  border: none;
+  font-weight: 300;
+  font-size: 1em;
+  cursor: pointer;
+  padding: 1px 0 8px 0;
+  font-size: .8em;
+}
+
 .group {
   display: flex;
   flex-direction: column;
@@ -49,17 +74,6 @@ input {
     margin: 0 auto;
 }
 
-button {
-    color: var(--foreground-color);
-    background: none;
-    padding: .7em 1.5em;
-    border-radius: 5px;
-    border: 1px solid var(--foreground-color);
-    text-decoration: none;
-    font-weight: 300;
-    font-size: 1em;
-    margin: 1em;
-}
 
 .message {
     font-size: 1em;
