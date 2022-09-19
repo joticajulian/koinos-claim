@@ -3,7 +3,7 @@
 
 :root {
   --foreground-color: #120415;
-  --background-color: #f5f1f1;
+  --background-color: #fff;
   --danger-color: #ff0000;
   --purple: #6F00F6;
 }
@@ -203,3 +203,13 @@ button {
   top: 0;
   border-radius: 4px;
 }
+
+@media (max-width: 70em) {
+  .wrapper {
+    flex-direction: column;
+  }
+  .group {
+    padding: 0 2em;
+  }
+}
+  

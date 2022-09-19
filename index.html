@@ -67,8 +67,10 @@
     </div>
     <div class="wrapper">
       <div class="left">
-        <h2>KOIN Token Claiming</h2>
-        <p>Welcome to the Koinos token claiming application. Here you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
+        <div class="group">
+          <h2>KOIN Token Claiming</h2>
+          <p>Welcome to the Koinos token claiming application. Here you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
+        </div>
         <div class="group">
           <p><div class="bold">Step One:</div> Connect your metamask wallet containing the KOIN ERC20 tokens</p>
           <button onclick="connectMetamask()"><img src="./static/images/metamask-logo.svg" alt=""> Connect Metamask</button>
@@ -80,22 +82,24 @@
               <button onclick="consultClaim()" class="">Verify</button>
             </div>
           </div>
+  
+          <div class="message">
+            <div id="ethKoinBalance"></div>
+            <div id="claimed"></div>
+            <div id="message"></div>
+            <div id="koinAddress"></div>
+          </div>
         <div class="group">
           <p><div class="bold">Step Three:</div> Connect your Kondor wallet</p>
           <button onclick="connectKondor()"> <img src="./static/images/kondor-icon.svg" alt=""> Connect Kondor</button>
         </div>
         <div id="group-claim" class="group">
           <p><div class="bold">Step Four:</div> Claim your KOIN tokens</p>
-          <button onclick="claimKoins()" class="button-85">Claim KOIN</button>
+          <button onclick="claimKoins()">Claim KOIN</button>
         </div>
       </div>
       <div class="right">
-        <div class="message">
-          <div id="ethKoinBalance"></div>
-          <div id="claimed"></div>
-          <div id="message"></div>
-          <div id="koinAddress"></div>
-        </div>
+
       </div>
     </div>
     <script
