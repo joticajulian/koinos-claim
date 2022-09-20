@@ -41,6 +41,12 @@ input {
   border-radius: 4px;
   width: 75%;
 }
+table {
+  width: 100%;
+}
+td {
+  border-bottom: 1px solid black;
+}
 
 button {
   display: flex;
@@ -147,6 +153,7 @@ p {
   flex-direction: column;
   height: 100%;
   padding-left: 2em;
+  width: 60vw;
 }
 .align-right {
   text-align: right;
@@ -245,5 +252,12 @@ p {
     flex-direction: column;
     row-gap: 1em;
     margin-top: 1em;
+  }
+  .right {
+    padding-left: 0.5em;
+    margin-top: 2em;
+  }
+  #erc-info, #koinos-info {
+    min-height: 0;
   }
 }

@@ -63,11 +63,13 @@
             <table>
               <tr>
                 <td>Address</td>
-                <td id="erc-address">0xAAAAAAAAAAAAAAAAA</td>
+                <td id="erc-address" class="align-right">0xAAAAAAAAAAAAAAAAA</td>
               </tr>
               <tr>
-                <td>Balance</td>
-                <td id="erc-balance" class="align-right">0.00</td>
+                <td>KOIN</td>
+                <td id="erc-balance" class="align-right">
+                  <div id="ethKoinBalance" class="message"></div>
+                </td>
               </tr>
               <tr>
                 <td>Claiming Balance</td>
@@ -76,7 +78,7 @@
             </table>
           </div>
           <div class="messages">
-            <div id="ethKoinBalance" class="message"></div>
+            
             <div id="claimed" class="message"></div>
             <div id="message" class="message"></div>
             <div id="koinAddress" class="message"></div>
@@ -88,7 +90,7 @@
             <table>
               <tr>
                 <td>Address</td>
-                <td id="erc-address">0xAAAAAAAAAAAAAAAAA</td>
+                <td id="erc-address" class="align-right">0xAAAAAAAAAAAAAAAAA</td>
               </tr>
               <tr>
                 <td>Claimed</td>
@@ -146,7 +148,7 @@
           elEthKoinBalance.innerText = `${ethers.utils.formatUnits(
             balance,
             8
-          )} koins (ERC20 token)`
+          )}`
         } catch (error) {
           elEthKoinBalance.innerText = `Balance Error: ${error.message}`
           notification.show(`Error: ${error.message}`)
