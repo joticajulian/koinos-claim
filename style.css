@@ -1,37 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap");
 
 :root {
   --foreground-color: #120415;
   --background-color: #fff;
   --danger-color: #ff0000;
-  --purple: #6F00F6;
+  --purple: #6f00f6;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 1.5;
-    color: var(--foreground-color);
-    background-color: var(--background-color);
-    
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--foreground-color);
+  background-color: var(--background-color);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    color: var(--foreground-color);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: var(--foreground-color);
+  margin-bottom: 0;
 }
 
 h2 {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 input {
   all: unset;
   padding: 12px 16px;
-  background: #F9F4FF;
+  background: #f9f4ff;
   border: 1px solid var(--purple);
   border-radius: 4px;
   width: 75%;
@@ -44,11 +49,22 @@ button {
   align-items: center;
   padding: 1rem 2rem;
   gap: 10px;
-  font-size: .707rem;
+  font-size: 0.707rem;
   color: var(--purple);
   border: 1px solid var(--purple);
   border-radius: 4px;
   background: none;
+}
+p {
+  max-width: 90%;
+}
+#erc-info {
+  margin-left: 1em;
+  min-height: 50vh;
+}
+#kondor-info {
+  margin-left: 1em;
+  min-height: 50vh;
 }
 .header {
   display: flex;
@@ -102,7 +118,11 @@ button {
   gap: 1em;
   width: 100%;
 }
-
+.right .title {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
 .group {
   display: flex;
   flex-direction: column;
@@ -110,28 +130,33 @@ button {
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    max-width: 80%;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 80%;
+  margin: 0 auto;
 }
 
-.left, .right {
+.left {
   width: 100vw;
 }
-
-
-.message {
-    font-size: 1em;
-    font-weight: 300;
-    margin: 1em;
-    text-align: center;
-    top: 0;
-    color: var(--danger-color);
-    border-radius: .2em;
-    padding: .2em 3em;
+.right {
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-left: 2em;
+}
+.align-right {
+  text-align: right;
+}
+.messages {
+  font-size: 1em;
+  font-weight: 300;
+  margin: 1em;
+  top: 0;
+  padding: 0.2em 3em;
 }
 
 .button-85 {
@@ -149,7 +174,7 @@ button {
   touch-action: manipulation;
   font-size: 1.2em;
   font-weight: lighter;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -208,9 +233,17 @@ button {
 @media (max-width: 70em) {
   .wrapper {
     flex-direction: column;
+    max-width: 100%;
   }
   .group {
     padding: 0 2em;
   }
+  .header {
+    flex-direction: column;
+  }
+  .info {
+    flex-direction: column;
+    row-gap: 1em;
+    margin-top: 1em;
+  }
 }
-  

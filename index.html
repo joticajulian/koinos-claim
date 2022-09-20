@@ -47,13 +47,6 @@
               <button onclick="consultClaim()" class="">Verify</button>
             </div>
           </div>
-  
-          <div class="message">
-            <div id="ethKoinBalance"></div>
-            <div id="claimed"></div>
-            <div id="message"></div>
-            <div id="koinAddress"></div>
-          </div>
         <div class="group">
           <p><div class="bold">Step Three:</div> Connect your Kondor wallet</p>
           <button onclick="connectKondor()"> <img src="./static/images/kondor-icon.svg" alt=""> Connect Kondor</button>
@@ -64,7 +57,46 @@
         </div>
       </div>
       <div class="right">
-
+        <div id="erc-info">
+          <div class="title">ERC20 Info</div>
+          <div class="body">
+            <table>
+              <tr>
+                <td>Address</td>
+                <td id="erc-address">0xAAAAAAAAAAAAAAAAA</td>
+              </tr>
+              <tr>
+                <td>Balance</td>
+                <td id="erc-balance" class="align-right">0.00</td>
+              </tr>
+              <tr>
+                <td>Claiming Balance</td>
+                <td id="erc-balance" class="align-right">0.00</td>
+              </tr>
+            </table>
+          </div>
+          <div class="messages">
+            <div id="ethKoinBalance" class="message"></div>
+            <div id="claimed" class="message"></div>
+            <div id="message" class="message"></div>
+            <div id="koinAddress" class="message"></div>
+          </div>
+        </div>
+        <div id="kondor-info">
+          <div class="title">Koinos Info</div>
+          <div class="body">
+            <table>
+              <tr>
+                <td>Address</td>
+                <td id="erc-address">0xAAAAAAAAAAAAAAAAA</td>
+              </tr>
+              <tr>
+                <td>Claimed</td>
+                <td id="erc-balance" class="align-right">0.00</td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <script
@@ -116,7 +148,7 @@
             8
           )} koins (ERC20 token)`
         } catch (error) {
-          elEthKoinBalance.innerText = `Error: ${error.message}`
+          elEthKoinBalance.innerText = `Balance Error: ${error.message}`
           notification.show(`Error: ${error.message}`)
           console.error(error)
         }
@@ -283,7 +315,7 @@
             claim.value.claimed ? "already claimed" : "ready to be claimed"
           }`
         } catch (error) {
-          elClaimed.innerText = `Error: ${error.message}`
+          elClaimed.innerText = `Claim Error: ${error.message}`
         }
       }
 
@@ -297,7 +329,7 @@
           inputEthAddress.value = accounts[0]
           consultClaim()
         } catch (error) {
-          notification.show(`Error: ${error.message}`)
+          notification.show(`MM Connect Error: ${error.message}`)
           console.error(error)
         }
       }
@@ -312,7 +344,7 @@
           elKoinAddress.innerText = koinAddress
         } catch (error) {
           elKoinAddress.innerText = `Error: ${error.message}`
-          notification.show(`Error: ${error.message}`)
+          notification.show(`Kondor Connect Error: ${error.message}`)
           console.error(error)
         }
       }
@@ -364,7 +396,7 @@
             `Congratulations! Your tokens have been claimed! (<a href="https://koinosexplorer.com/tx/${transaction.id}">transaction</a>)`
           )
         } catch (error) {
-          notification.show(`Error: ${error.message}`)
+          notification.show(`Claim Error: ${error.message}`)
           console.error(error)
         }
       }
