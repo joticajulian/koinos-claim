@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "docs": "copyfiles index.html docs",
+    "docs": "copyfiles index.html docs && copyfiles style.css docs && copyfiles static/** docs",
     "postinstall": "copyfiles -u 3 node_modules/koilib/dist/koinos.min.js js && copyfiles -u 3 node_modules/koilib/dist/koinos.js js && copyfiles -u 3 node_modules/kondor-js/dist/kondor.min.js js && copyfiles -u 3 node_modules/kondor-js/dist/kondor.js js",
     "start": "node ./server.js"
   },
