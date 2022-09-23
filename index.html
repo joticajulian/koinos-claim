@@ -43,7 +43,7 @@
           <div class="group">
             <p><div class="bold">Step Two:</div> check the address containing the KOIN ERC20 tokens.</p>
             <div class="input-group">
-              <input type="text" id="ethAddress" placeholder="Ethereum Address"/>
+              <input type="text" id="inputEthAddress" placeholder="Ethereum Address"/>
               <button onclick="consultClaim()" class="">Verify</button>
             </div>
           </div>
@@ -53,7 +53,7 @@
         </div>
         <div id="group-claim" class="group">
           <p><div class="bold">Step Four:</div> Claim your KOIN tokens</p>
-          <button onclick="claimKoins()">CLAIM KOIN</button>
+          <button onclick="claimKoins()">CLAIM TKOINS</button>
         </div>
       </div>
       <div class="right">
@@ -63,25 +63,17 @@
             <table>
               <tr>
                 <td>Address</td>
-                <td id="erc-address" class="align-right">0xAAAAAAAAAAAAAAAAA</td>
+                <td id="ethAddress" class="align-right"></td>
               </tr>
               <tr>
                 <td>KOIN</td>
-                <td id="erc-balance" class="align-right">
-                  <div id="ethKoinBalance" class="message"></div>
-                </td>
+                <td id="ethKoinBalance" class="align-right"></td>
               </tr>
               <tr>
                 <td>Claiming Balance</td>
-                <td id="erc-balance" class="align-right">0.00</td>
+                <td id="claimed" class="align-right"></td>
               </tr>
             </table>
-          </div>
-          <div class="messages">
-            
-            <div id="claimed" class="message"></div>
-            <div id="message" class="message"></div>
-            <div id="koinAddress" class="message"></div>
           </div>
         </div>
         <div id="kondor-info">
@@ -90,14 +82,13 @@
             <table>
               <tr>
                 <td>Address</td>
-                <td id="erc-address" class="align-right">0xAAAAAAAAAAAAAAAAA</td>
-              </tr>
-              <tr>
-                <td>Claimed</td>
-                <td id="erc-balance" class="align-right">0.00</td>
+                <td id="koinAddress" class="align-right"></td>
               </tr>
             </table>
           </div>
+        </div>
+        <div class="messages">
+          <div id="message" class="message"></div>
         </div>
       </div>
     </div>
@@ -108,7 +99,8 @@
     <script src="js/kondor.js"></script>
     <script src="js/koinos.js"></script>
     <script>
-      const inputEthAddress = document.getElementById("ethAddress")
+      const inputEthAddress = document.getElementById("inputEthAddress")
+      const elEthAddress = document.getElementById("ethAddress")
       const elMessage = document.getElementById("message")
       const elEthKoinBalance = document.getElementById("ethKoinBalance")
       const elKoinAddress = document.getElementById("koinAddress")
@@ -145,6 +137,7 @@
             getMetamaskProvider()
           )
           const balance = await ethContract.balanceOf(inputEthAddress.value)
+          elEthAddress.innerText = inputEthAddress.value
           elEthKoinBalance.innerText = `${ethers.utils.formatUnits(
             balance,
             8
@@ -304,6 +297,7 @@
           const { result: claim } = await claimContract.check_claim({
             eth_address: inputEthAddress.value,
           })
+          elEthAddress.innerText = inputEthAddress.value
           if (!claim || !claim.value) {
             const errorMessage = `No claim data found for address ${inputEthAddress.value}`
             elClaimed.innerText = errorMessage
@@ -329,6 +323,7 @@
             method: "eth_requestAccounts",
           })
           inputEthAddress.value = accounts[0]
+          elEthAddress.innerText = accounts[0]
           consultClaim()
         } catch (error) {
           notification.show(`MM Connect Error: ${error.message}`)
@@ -355,7 +350,8 @@
         notification.hide()
         try {
           const signer = getMetamaskProvider().getSigner()
-          const message = `claim koins ${inputEthAddress.value}:${koinAddress}`
+          const message = `claim tkoins ${inputEthAddress.value}:${koinAddress}`
+          elEthAddress.innerText = inputEthAddress.value
           const signature = await signer.signMessage(message)
 
           console.log(
