@@ -1,70 +1,150 @@
 <html>
   <head>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <h2>Claim koins</h2>
-    <div class="group">
-      <button onclick="connectMetamask()">Connect metamask</button>
-      <div class="group">
-        <label for="consult">Ethereum address</label>
-        <input type="text" id="ethAddress" />
-        <button onclick="consultClaim()">Consult</button>
+  <body onload="consultGeneralInfo()">
+    <div class="header">
+      <div class="logo">
+        <img src="./static/images/koinos-logo.png" />
       </div>
-      <div id="ethKoinBalance"></div>
-      <div id="claimed"></div>
+      <div class="info flex-row">
+        <div class="mini-card flex-row">
+          <div class="title">
+            <img src="./static/images/ethereum-icon.svg" alt="">
+            ERC20
+          </div>
+          <div class="label">Accounts</div>
+          <div id="totalEthAccounts" class="value">...</div>
+          <div class="label">Claimed</div>
+          <div id="ethAccountsClaimed" class="value">...</div>
+        </div>
+        <div class="mini-card flex-row">
+          <div class="title">
+            <img src="./static/images/koinos-icon-purple.svg" alt="">
+            KOIN
+          </div>
+          <div class="label">Tokens</div>
+          <div id="totalKoin" class="value">...</div>
+          <div class="label">Claimed</div>
+          <div id="koinClaimed" class="value">...</div>
+        </div>
+      </div>
     </div>
-    <div class="group">
-      <button onclick="connectKondor()">Connect kondor</button>
-      <div id="koinAddress"></div>
+    <div class="wrapper">
+      <div class="left">
+        <div class="group">
+          <h2>KOIN Token Claiming</h2>
+          <p>Welcome to the Koinos token claiming application. Here you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
+        </div>
+        <div class="group">
+          <p><div class="bold">Step One:</div> Connect your metamask wallet containing the KOIN ERC20 tokens</p>
+          <button onclick="connectMetamask()"><img src="./static/images/metamask-logo.svg" alt=""> Connect Metamask</button>
+        </div>
+          <div class="group">
+            <p><div class="bold">Step Two:</div> check the address containing the KOIN ERC20 tokens.</p>
+            <div class="input-group">
+              <input type="text" id="inputEthAddress" placeholder="Ethereum Address"/>
+              <button onclick="consultClaim()" class="">Verify</button>
+            </div>
+          </div>
+        <div class="group">
+          <p><div class="bold">Step Three:</div> Connect your Kondor wallet</p>
+          <button onclick="connectKondor()"> <img src="./static/images/kondor-icon.svg" alt=""> Connect Kondor</button>
+        </div>
+        <div id="group-claim" class="group">
+          <p><div class="bold">Step Four:</div> Claim your KOIN tokens</p>
+          <button onclick="claimKoins()">CLAIM TKOINS</button>
+        </div>
+      </div>
+      <div class="right">
+        <div id="erc-info">
+          <div class="title">ERC20 Info</div>
+          <div class="body">
+            <table>
+              <tr>
+                <td>Address</td>
+                <td id="ethAddress" class="align-right"></td>
+              </tr>
+              <tr>
+                <td>KOIN</td>
+                <td id="ethKoinBalance" class="align-right"></td>
+              </tr>
+              <tr>
+                <td>Claiming Balance</td>
+                <td id="claimed" class="align-right"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div id="kondor-info">
+          <div class="title">Koinos Info</div>
+          <div class="body">
+            <table>
+              <tr>
+                <td>Address</td>
+                <td id="koinAddress" class="align-right"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="messages">
+          <div id="message" class="message"></div>
+        </div>
+      </div>
     </div>
-    <div id="group-claim">
-      <button onclick="claimKoins()">Claim</button>
-    </div>
-    <div id="message"></div>
-
-    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript">
-    </script>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"
+      type="text/javascript"
+    ></script>
     <script src="js/kondor.js"></script>
     <script src="js/koinos.js"></script>
     <script>
-      const inputEthAddress = document.getElementById("ethAddress");
-      const elMessage = document.getElementById("message");
-      const elEthKoinBalance = document.getElementById("ethKoinBalance");
-      const elKoinAddress = document.getElementById("koinAddress");
-      const elClaimed = document.getElementById("claimed");
-      let koinAddress;
-      let metamaskProvider;
+      const inputEthAddress = document.getElementById("inputEthAddress")
+      const elEthAddress = document.getElementById("ethAddress")
+      const elMessage = document.getElementById("message")
+      const elEthKoinBalance = document.getElementById("ethKoinBalance")
+      const elKoinAddress = document.getElementById("koinAddress")
+      const elClaimed = document.getElementById("claimed")
+      let koinAddress
+      let metamaskProvider
 
       const notification = {
         hide: () => elMessage.setAttribute("style", "display:none;"),
         show: (msg) => {
-          elMessage.innerHTML = msg;
-          elMessage.setAttribute("style", "display:block;");
+          elMessage.innerHTML = msg
+          elMessage.setAttribute("style", "display:block;")
         },
-      };
-      notification.hide();
+      }
+      notification.hide()
 
       function getMetamaskProvider() {
         if (typeof window.ethereum === "undefined") {
-          throw new Error("Metamask is not installed");
+          throw new Error("Metamask is not installed")
         }
-        return new ethers.providers.Web3Provider(window.ethereum);
+        return new ethers.providers.Web3Provider(window.ethereum)
       }
 
       async function consultBalanceKoinERC20() {
         try {
-          elEthKoinBalance.innerText = "Loading koin (ERC20 token) balance...";
+          elEthKoinBalance.innerText = "Loading koin (ERC20 token) balance..."
           const koinErc20 = {
             address: "0x66d28cb58487a7609877550e1a34691810a6b9fc",
             abi: ["function balanceOf(address) view returns (uint)"],
-          };
-          const ethContract = new ethers.Contract(koinErc20.address, koinErc20.abi, getMetamaskProvider());
-          const balance = await ethContract.balanceOf(inputEthAddress.value);
-          elEthKoinBalance.innerText = `${ethers.utils.formatUnits(balance, 8)} koins (ERC20 token)`;
+          }
+          const ethContract = new ethers.Contract(
+            koinErc20.address,
+            koinErc20.abi,
+            getMetamaskProvider()
+          )
+          const balance = await ethContract.balanceOf(inputEthAddress.value)
+          elEthAddress.innerText = inputEthAddress.value
+          elEthKoinBalance.innerText = `${ethers.utils.formatUnits(
+            balance,
+            8
+          )}`
         } catch (error) {
-          elEthKoinBalance.innerText = `Error: ${error.message}`;
-          notification.show(`Error: ${error.message}`);
+          elEthKoinBalance.innerText = `Balance Error: ${error.message}`
+          notification.show(`Error: ${error.message}`)
           console.error(error)
         }
       }
@@ -84,7 +164,7 @@
                 argument: "get_info_arguments",
                 return: "get_info_result",
                 entry_point: 0xbd7f6850,
-                "read_only": true,
+                read_only: true,
               },
               check_claim: {
                 argument: "check_claim_arguments",
@@ -101,28 +181,29 @@
                       nested: {
                         claim: {
                           options: {
-                            go_package: "github.com/koinos/koinos-proto-golang/koinos/contracts/claim"
+                            go_package:
+                              "github.com/koinos/koinos-proto-golang/koinos/contracts/claim",
                           },
                           nested: {
                             claim_info: {
                               fields: {
                                 total_eth_accounts: {
                                   type: "uint32",
-                                  id: 1
+                                  id: 1,
                                 },
                                 eth_accounts_claimed: {
                                   type: "uint32",
-                                  id: 2
+                                  id: 2,
                                 },
                                 total_koin: {
                                   type: "uint64",
-                                  id: 3
+                                  id: 3,
                                 },
                                 koin_claimed: {
                                   type: "uint64",
-                                  id: 4
-                                }
-                              }
+                                  id: 4,
+                                },
+                              },
                             },
                             claim_status: {
                               fields: {
@@ -130,14 +211,14 @@
                                   type: "uint64",
                                   id: 1,
                                   options: {
-                                    jstype: "JS_STRING"
-                                  }
+                                    jstype: "JS_STRING",
+                                  },
                                 },
                                 claimed: {
                                   type: "bool",
-                                  id: 2
-                                }
-                              }
+                                  id: 2,
+                                },
+                              },
                             },
                             claim_arguments: {
                               fields: {
@@ -145,35 +226,35 @@
                                   type: "bytes",
                                   id: 1,
                                   options: {
-                                    "(btype)": "HEX"
-                                  }
+                                    "(btype)": "HEX",
+                                  },
                                 },
                                 koin_address: {
                                   type: "bytes",
                                   id: 2,
                                   options: {
-                                    "(btype)": "ADDRESS"
-                                  }
+                                    "(btype)": "ADDRESS",
+                                  },
                                 },
                                 signature: {
                                   type: "bytes",
-                                  id: 3
-                                }
-                              }
+                                  id: 3,
+                                },
+                              },
                             },
                             claim_result: {
-                              fields: {}
+                              fields: {},
                             },
                             get_info_arguments: {
-                              fields: {}
+                              fields: {},
                             },
                             get_info_result: {
                               fields: {
                                 value: {
                                   type: "claim_info",
-                                  id: 1
-                                }
-                              }
+                                  id: 1,
+                                },
+                              },
                             },
                             check_claim_arguments: {
                               fields: {
@@ -181,122 +262,153 @@
                                   type: "bytes",
                                   id: 1,
                                   options: {
-                                    "(btype)": "HEX"
-                                  }
-                                }
-                              }
+                                    "(btype)": "HEX",
+                                  },
+                                },
+                              },
                             },
                             check_claim_result: {
                               fields: {
                                 value: {
                                   type: "claim_status",
-                                  id: 1
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+                                  id: 1,
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
           provider: kondor.provider,
           signer: kondor.getSigner(koinAddress),
-        });
+        })
+      }
+
+      async function consultGeneralInfo() {
+        try {
+          const claimContract = getClaimContract().functions
+          const { result: { value: info } } = await claimContract.get_info({});
+          document.getElementById("totalEthAccounts").innerText = info.total_eth_accounts;
+          document.getElementById("ethAccountsClaimed").innerText = info.eth_accounts_claimed;
+          document.getElementById("totalKoin").innerText = Number(utils.formatUnits(info.total_koin, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
+          document.getElementById("koinClaimed").innerText = Number(utils.formatUnits(info.koin_claimed, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
+        } catch (error) {
+          elClaimed.innerText = `Claim Error: ${error.message}`
+        }
       }
 
       async function consultClaim() {
-        consultBalanceKoinERC20();
+        consultBalanceKoinERC20()
         try {
-          elClaimed.innerText = "Loading claim status...";
-          const claimContract = getClaimContract().functions;
+          elClaimed.innerText = "Loading claim status..."
+          const claimContract = getClaimContract().functions
           const { result: claim } = await claimContract.check_claim({
             eth_address: inputEthAddress.value,
-          });
+          })
+          elEthAddress.innerText = inputEthAddress.value
           if (!claim || !claim.value) {
-            const errorMessage = `No claim data found for address ${inputEthAddress.value}`;
-            elClaimed.innerText = errorMessage;
-            console.log(claim);
-            throw new Error(errorMessage);
+            const errorMessage = `No claim data found for address ${inputEthAddress.value}`
+            elClaimed.innerText = errorMessage
+            console.log(claim)
+            throw new Error(errorMessage)
           }
-          elClaimed.innerText = `${utils.formatUnits(claim.value.token_amount, 8)} tKoins ${claim.value.claimed ? "already claimed" : "ready to be claimed"}`;
+          elClaimed.innerText = `${utils.formatUnits(
+            claim.value.token_amount,
+            8
+          )} tKoins ${
+            claim.value.claimed ? "already claimed" : "ready to be claimed"
+          }`
         } catch (error) {
-          elClaimed.innerText = `Error: ${error.message}`;
+          elClaimed.innerText = `Claim Error: ${error.message}`
         }
       }
 
       async function connectMetamask() {
-        notification.hide();
+        notification.hide()
         try {
-          getMetamaskProvider();
-          const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-          inputEthAddress.value = accounts[0];
-          consultClaim();
+          getMetamaskProvider()
+          const accounts = await ethereum.request({
+            method: "eth_requestAccounts",
+          })
+          inputEthAddress.value = accounts[0]
+          elEthAddress.innerText = accounts[0]
+          consultClaim()
         } catch (error) {
-          notification.show(`Error: ${error.message}`);
+          notification.show(`MM Connect Error: ${error.message}`)
           console.error(error)
         }
       }
 
       async function connectKondor() {
-        notification.hide();
+        notification.hide()
         try {
-          elKoinAddress.innerText = "";
-          const accounts = await kondor.getAccounts();
-          if (accounts.length === 0)
-            throw new Error("No account selected");
-          koinAddress = accounts[0].address;
-          elKoinAddress.innerText = koinAddress;
+          elKoinAddress.innerText = ""
+          const accounts = await kondor.getAccounts()
+          if (accounts.length === 0) throw new Error("No account selected")
+          koinAddress = accounts[0].address
+          elKoinAddress.innerText = koinAddress
         } catch (error) {
-          elKoinAddress.innerText = `Error: ${error.message}`;
-          notification.show(`Error: ${error.message}`);
-          console.error(error);
+          elKoinAddress.innerText = `Error: ${error.message}`
+          notification.show(`Kondor Connect Error: ${error.message}`)
+          console.error(error)
         }
       }
 
       async function claimKoins() {
-        notification.hide();
+        notification.hide()
         try {
-          const signer = getMetamaskProvider().getSigner();
-          const message = `claim koins ${inputEthAddress.value}:${koinAddress}`;
-          const signature = await signer.signMessage(message);
+          const signer = getMetamaskProvider().getSigner()
+          const message = `claim tkoins ${inputEthAddress.value}:${koinAddress}`
+          elEthAddress.innerText = inputEthAddress.value
+          const signature = await signer.signMessage(message)
 
-          console.log(JSON.stringify({
-            address: inputEthAddress.value,
-            msg: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(message)),
-            sig: signature,
-            version: "3",
-            signer: "Metamask"
-          }, null, 2));
+          console.log(
+            JSON.stringify(
+              {
+                address: inputEthAddress.value,
+                msg: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(message)),
+                sig: signature,
+                version: "3",
+                signer: "Metamask",
+              },
+              null,
+              2
+            )
+          )
 
-          const claimContract = getClaimContract().functions;
-          const { r, s, recoveryParam } = ethers.utils.splitSignature(signature);
-          const compactSignature = Number(31 + recoveryParam).toString(16) + r.slice(2) + s.slice(2);
+          const claimContract = getClaimContract().functions
+          const { r, s, recoveryParam } = ethers.utils.splitSignature(signature)
+          const compactSignature =
+            Number(31 + recoveryParam).toString(16) + r.slice(2) + s.slice(2)
           const { transaction, receipt } = await claimContract.claim({
             eth_address: inputEthAddress.value,
             koin_address: koinAddress,
-            signature: utils.encodeBase64url(utils.toUint8Array(compactSignature)),
-          });
-          
-          console.log(`transaction ${transaction.id} submitted. Receipt:`);
-          console.log(receipt);
+            signature: utils.encodeBase64url(
+              utils.toUint8Array(compactSignature)
+            ),
+          })
+
+          console.log(`transaction ${transaction.id} submitted. Receipt:`)
+          console.log(receipt)
 
           notification.show(
             `transaction ${transaction.id} submitted. Waiting to be mined`
-          );
+          )
 
           // wait to be mined
-          const blockNumber = await transaction.wait();
-          console.log(`Mined in block ${blockNumber}`);
+          const blockNumber = await transaction.wait()
+          console.log(`Mined in block ${blockNumber}`)
           notification.show(
             `Congratulations! Your tokens have been claimed! (<a href="https://koinosexplorer.com/tx/${transaction.id}">transaction</a>)`
-          );
+          )
         } catch (error) {
-          notification.show(`Error: ${error.message}`);
-          console.error(error);
+          notification.show(`Claim Error: ${error.message}`)
+          console.error(error)
         }
       }
     </script>
