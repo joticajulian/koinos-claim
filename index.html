@@ -2,7 +2,7 @@
   <head>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body onload="consultGeneralInfo()">
     <div class="header">
       <div class="logo">
         <img src="./static/images/koinos-logo.png" />
@@ -14,9 +14,9 @@
             ERC20
           </div>
           <div class="label">Accounts</div>
-          <div class="value">3,367</div>
+          <div id="totalEthAccounts" class="value">...</div>
           <div class="label">Claimed</div>
-          <div class="value">0</div>
+          <div id="ethAccountsClaimed" class="value">...</div>
         </div>
         <div class="mini-card flex-row">
           <div class="title">
@@ -24,9 +24,9 @@
             KOIN
           </div>
           <div class="label">Tokens</div>
-          <div class="value">99,578,207</div>
+          <div id="totalKoin" class="value">...</div>
           <div class="label">Claimed</div>
-          <div class="value">0</div>
+          <div id="koinClaimed" class="value">...</div>
         </div>
       </div>
     </div>
@@ -287,6 +287,19 @@
           provider: kondor.provider,
           signer: kondor.getSigner(koinAddress),
         })
+      }
+
+      async function consultGeneralInfo() {
+        try {
+          const claimContract = getClaimContract().functions
+          const { result: { value: info } } = await claimContract.get_info({});
+          document.getElementById("totalEthAccounts").innerText = info.total_eth_accounts;
+          document.getElementById("ethAccountsClaimed").innerText = info.eth_accounts_claimed;
+          document.getElementById("totalKoin").innerText = Number(utils.formatUnits(info.total_koin, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
+          document.getElementById("koinClaimed").innerText = Number(utils.formatUnits(info.koin_claimed, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
+        } catch (error) {
+          elClaimed.innerText = `Claim Error: ${error.message}`
+        }
       }
 
       async function consultClaim() {
