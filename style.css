@@ -39,7 +39,7 @@ input {
   background: #f9f4ff;
   border: 1px solid var(--purple);
   border-radius: 4px;
-  width: 75%;
+  width: 50%;
 }
 table {
   width: 100%;
@@ -60,6 +60,7 @@ button {
   border: 1px solid var(--purple);
   border-radius: 4px;
   background: none;
+  text-transform: uppercase;
 }
 
 button:hover {
@@ -73,11 +74,9 @@ p {
 }
 #erc-info {
   margin-left: 1em;
-  min-height: 50vh;
 }
 #kondor-info {
   margin-left: 1em;
-  min-height: 50vh;
 }
 .header {
   display: flex;
@@ -166,11 +165,13 @@ p {
   text-align: right;
 }
 .messages {
-  font-size: 1em;
+  font-size: 0.707em;
   font-weight: 300;
   margin: 1em;
   top: 0;
   padding: 0.2em 3em;
+  text-align: center;
+  color: rgb(226, 53, 23);
 }
 
 .button-85 {
