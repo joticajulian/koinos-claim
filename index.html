@@ -3,116 +3,150 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="header">
-      <div class="logo">
-        <img src="./static/images/koinos-logo.png" />
-      </div>
-      <div class="info flex-row">
-        <div class="mini-card flex-row">
-          <div class="title">
-            <img src="./static/images/ethereum-icon.svg" alt="">
-            ERC20
+    <div id="app">
+      <div class="header">
+        <div class="logo">
+          <img src="./static/images/koinos-logo.png" />
+        </div>
+        <div class="info flex-row">
+          <div class="mini-card flex-row">
+            <div class="title">
+              <img src="./static/images/ethereum-icon.svg" alt="">
+              ERC20
+            </div>
+            <div class="label">Accounts</div>
+            <div class="value">3,367</div>
+            <div class="label">Claimed</div>
+            <div class="value">0</div>
           </div>
-          <div class="label">Accounts</div>
-          <div class="value">3,367</div>
-          <div class="label">Claimed</div>
-          <div class="value">0</div>
-        </div>
-        <div class="mini-card flex-row">
-          <div class="title">
-            <img src="./static/images/koinos-icon-purple.svg" alt="">
-            KOIN
+          <div class="mini-card flex-row">
+            <div class="title">
+              <img src="./static/images/koinos-icon-purple.svg" alt="">
+              KOIN
+            </div>
+            <div class="label">Tokens</div>
+            <div class="value">99,578,207</div>
+            <div class="label">Claimed</div>
+            <div class="value">0</div>
           </div>
-          <div class="label">Tokens</div>
-          <div class="value">99,578,207</div>
-          <div class="label">Claimed</div>
-          <div class="value">0</div>
         </div>
       </div>
-    </div>
-    <div class="wrapper">
-      <div class="left">
-        <div class="group">
-          <h2>KOIN Token Claiming</h2>
-          <p>Welcome to the Koinos token claiming application. Here you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
-        </div>
-        <div class="group">
-          <p><div class="bold">Step One:</div> Connect your metamask wallet containing the KOIN ERC20 tokens</p>
-          <button onclick="connectMetamask()"><img src="./static/images/metamask-logo.svg" alt=""> Connect Metamask</button>
-        </div>
+      <div class="wrapper">
+        <div class="left">
           <div class="group">
-            <p><div class="bold">Step Two:</div> check the address containing the KOIN ERC20 tokens.</p>
-            <div class="input-group">
-              <input type="text" id="ethAddress" placeholder="Ethereum Address"/>
-              <button onclick="consultClaim()" class="">Verify</button>
+            <h2>KOIN Token Claiming</h2>
+            <p>Welcome to the Koinos token claiming application. Here you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
+          </div>
+          <div class="group">
+            <select v-model="category">
+              <option
+                v-for="option in categories"
+                :value="option"
+                :key="option"
+                :selected="option === category"
+              >{{ option }}</option>
+            </select>
+          </div>
+          <div class="group">
+            <p><div class="bold">Step One:</div> Connect your metamask wallet containing the KOIN ERC20 tokens</p>
+            <button onclick="connectMetamask()"><img src="./static/images/metamask-logo.svg" alt=""> Connect Metamask</button>
+          </div>
+            <div class="group">
+              <p><div class="bold">Step Two:</div> check the address containing the KOIN ERC20 tokens.</p>
+              <div class="input-group">
+                <input type="text" id="ethAddress" placeholder="Ethereum Address"/>
+                <button onclick="consultClaim()" class="">Verify</button>
+              </div>
+            </div>
+          <div class="group">
+            <p><div class="bold">Step Three:</div> Connect your Kondor wallet</p>
+            <div class="button-group">
+              <button onclick="connectKondor()"> 
+                <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99873 1.28487C5.98747 2.06991 6.42061 2.92927 7.2112 4.13351C7.5616 5.49754 8.09706 6.59242 8.81195 7.81067C8.60128 9.31136 9.00246 10.8485 9.64584 12.3149C9.47883 12.6232 9.38107 12.8431 9.35422 13.1714C8.79147 13.6487 8.36025 14.2107 8.03919 14.8438C7.34116 14.7017 6.7027 14.4774 6.11587 14.182C5.68578 13.7481 5.3552 13.2525 5.20052 12.7268C5.8757 12.5542 6.57166 12.2233 7.16318 11.6979C6.26406 11.9052 5.42351 11.9232 4.6945 11.6852C4.10559 10.8547 3.8202 9.91509 3.918 8.97118C4.68638 9.57745 5.55763 9.9374 6.55626 9.79419C5.46642 9.26069 4.47912 8.57448 3.74843 7.63239C3.6975 6.73208 3.92769 5.95012 4.28826 5.26187C4.94742 6.24089 5.81902 6.97502 6.71618 7.59188C5.82809 6.70048 5.12158 5.60228 4.60232 4.42077C4.81834 3.20638 5.28213 2.17936 5.99873 1.28487Z" fill="#7161EF"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5442 1.28487C12.5555 2.06991 12.1224 2.92927 11.3318 4.13351C10.9814 5.49754 10.4459 6.59241 9.73102 7.81067C9.89639 8.98863 9.68478 10.1891 9.27494 11.3601C9.22023 11.5163 9.24829 13.2224 9.27748 13.2483C9.7971 13.7087 10.1998 14.2444 10.5038 14.8438C11.2018 14.7017 11.8403 14.4774 12.4271 14.182C12.8572 13.7481 13.1878 13.2525 13.3425 12.7268C12.6673 12.5542 11.9713 12.2233 11.3798 11.6979C12.2789 11.9052 13.1195 11.9232 13.8485 11.6852C14.4374 10.8547 14.7228 9.91509 14.625 8.97118C13.8566 9.57745 12.9853 9.9374 11.9867 9.79419C13.0765 9.26068 14.0638 8.57448 14.7945 7.63239C14.8455 6.73208 14.6153 5.95012 14.2547 5.26187C13.5956 6.24089 12.724 6.97501 11.8268 7.59188C12.7149 6.70047 13.4214 5.60228 13.9406 4.42077C13.7246 3.20638 13.2608 2.17936 12.5442 1.28487Z" fill="#7161EF"/>
+                </svg>
+                Connect Kondor
+              </button>
+              <span>
+                <a href="">CLI Instructions</a>
+              </span>
             </div>
           </div>
-        <div class="group">
-          <p><div class="bold">Step Three:</div> Connect your Kondor wallet</p>
-          <button onclick="connectKondor()"> 
-            <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99873 1.28487C5.98747 2.06991 6.42061 2.92927 7.2112 4.13351C7.5616 5.49754 8.09706 6.59242 8.81195 7.81067C8.60128 9.31136 9.00246 10.8485 9.64584 12.3149C9.47883 12.6232 9.38107 12.8431 9.35422 13.1714C8.79147 13.6487 8.36025 14.2107 8.03919 14.8438C7.34116 14.7017 6.7027 14.4774 6.11587 14.182C5.68578 13.7481 5.3552 13.2525 5.20052 12.7268C5.8757 12.5542 6.57166 12.2233 7.16318 11.6979C6.26406 11.9052 5.42351 11.9232 4.6945 11.6852C4.10559 10.8547 3.8202 9.91509 3.918 8.97118C4.68638 9.57745 5.55763 9.9374 6.55626 9.79419C5.46642 9.26069 4.47912 8.57448 3.74843 7.63239C3.6975 6.73208 3.92769 5.95012 4.28826 5.26187C4.94742 6.24089 5.81902 6.97502 6.71618 7.59188C5.82809 6.70048 5.12158 5.60228 4.60232 4.42077C4.81834 3.20638 5.28213 2.17936 5.99873 1.28487Z" fill="#7161EF"/>
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5442 1.28487C12.5555 2.06991 12.1224 2.92927 11.3318 4.13351C10.9814 5.49754 10.4459 6.59241 9.73102 7.81067C9.89639 8.98863 9.68478 10.1891 9.27494 11.3601C9.22023 11.5163 9.24829 13.2224 9.27748 13.2483C9.7971 13.7087 10.1998 14.2444 10.5038 14.8438C11.2018 14.7017 11.8403 14.4774 12.4271 14.182C12.8572 13.7481 13.1878 13.2525 13.3425 12.7268C12.6673 12.5542 11.9713 12.2233 11.3798 11.6979C12.2789 11.9052 13.1195 11.9232 13.8485 11.6852C14.4374 10.8547 14.7228 9.91509 14.625 8.97118C13.8566 9.57745 12.9853 9.9374 11.9867 9.79419C13.0765 9.26068 14.0638 8.57448 14.7945 7.63239C14.8455 6.73208 14.6153 5.95012 14.2547 5.26187C13.5956 6.24089 12.724 6.97501 11.8268 7.59188C12.7149 6.70047 13.4214 5.60228 13.9406 4.42077C13.7246 3.20638 13.2608 2.17936 12.5442 1.28487Z" fill="#7161EF"/>
-            </svg>
-            Connect Kondor
-          </button>
-        </div>
-        <div id="group-claim" class="group">
-          <p><div class="bold">Step Four:</div> Claim your KOIN tokens</p>
-          <button onclick="claimKoins()">CLAIM KOIN</button>
-        </div>
-      </div>
-      <div class="right">
-        <div id="erc-info">
-          <div class="title">ERC20 Info</div>
-          <div class="body">
-            <table>
-              <tr>
-                <td>Address</td>
-                <td id="ethAddress" class="align-right"></td>
-              </tr>
-              <tr>
-                <td>KOIN</td>
-                <td id="erc-balance" class="align-right">
-                  <div id="ethKoinBalance" class="message"></div>
-                </td>
-              </tr>
-              <tr>
-                <td>Claiming Balance</td>
-                <td id="erc-balance" class="align-right">0.00</td>
-              </tr>
-            </table>
-          </div>
-          <div class="messages">
-            
-            <div id="claimed" class="message"></div>
-            <div id="message" class="message"></div>
-            <div id="koinAddress" class="message"></div>
+          <div id="group-claim" class="group">
+            <p><div class="bold">Step Four:</div> Claim your KOIN tokens</p>
+            <button onclick="claimKoins()">CLAIM KOIN</button>
           </div>
         </div>
-        <div id="kondor-info">
-          <div class="title">Koinos Info</div>
-          <div class="body">
-            <table>
-              <tr>
-                <td>Address</td>
-                <td id="erc-address" class="align-right"></td>
-              </tr>
-              <tr>
-                <td>Claimed</td>
-                <td id="erc-balance" class="align-right">0.00</td>
-              </tr>
-            </table>
+        <div class="right">
+          <div id="erc-info">
+            <div class="title">ERC20 Info</div>
+            <div class="body">
+              <table>
+                <tr>
+                  <td>Address</td>
+                  <td id="ethAddress" class="align-right"></td>
+                </tr>
+                <tr>
+                  <td>KOIN</td>
+                  <td id="erc-balance" class="align-right">
+                    <div id="ethKoinBalance" class="message"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Claiming Balance</td>
+                  <td id="erc-balance" class="align-right">0.00</td>
+                </tr>
+              </table>
+            </div>
+            <div class="messages">
+              
+              <div id="claimed" class="message"></div>
+              <div id="message" class="message"></div>
+              <div id="koinAddress" class="message"></div>
+            </div>
+          </div>
+          <div id="kondor-info">
+            <div class="title">Koinos Info</div>
+            <div class="body">
+              <table>
+                <tr>
+                  <td>Address</td>
+                  <td id="erc-address" class="align-right"></td>
+                </tr>
+                <tr>
+                  <td>Claimed</td>
+                  <td id="erc-balance" class="align-right">0.00</td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+      </div>      
     </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script
       src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"
       type="text/javascript"
     ></script>
     <script src="js/kondor.js"></script>
     <script src="js/koinos.js"></script>
+    <script>
+      const { createApp } = Vue
+    
+      createApp({
+        data() {
+          return {
+            active: false,
+            categories: ['Koinos', 'Someone Else'], event: {category: ''},
+          }
+        },methods: {
+      toggle () {
+        this.active = !this.active
+      }
+    }
+      }).mount('#app')
+    </script>
     <script>
       const inputEthAddress = document.getElementById("ethAddress")
       const elMessage = document.getElementById("message")

@@ -67,10 +67,14 @@ button:hover {
   background: #9150e0;
   color: var(--background-color);
   cursor: pointer;
-  transition: .9s;
+  transition: 0.9s;
 }
 p {
   max-width: 90%;
+}
+select {
+  padding: 1em;
+  font-size: 0.8em;
 }
 #erc-info {
   margin-left: 1em;
@@ -265,7 +269,8 @@ p {
     padding-left: 0.5em;
     margin-top: 2em;
   }
-  #erc-info, #koinos-info {
+  #erc-info,
+  #koinos-info {
     min-height: 0;
   }
 }
