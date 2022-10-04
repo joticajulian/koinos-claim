@@ -2,7 +2,7 @@
   <head>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body onload="consultGeneralInfo()">
     <div id="app">
       <div class="header">
         <div class="logo">
@@ -15,9 +15,9 @@
               ERC20
             </div>
             <div class="label">Accounts</div>
-            <div class="value">3,367</div>
+            <div id="totalEthAccounts" class="value">...</div>
             <div class="label">Claimed</div>
-            <div class="value">0</div>
+            <div id="ethAccountsClaimed" class="value">...</div>
           </div>
           <div class="mini-card flex-row">
             <div class="title">
@@ -25,9 +25,9 @@
               KOIN
             </div>
             <div class="label">Tokens</div>
-            <div class="value">99,578,207</div>
+            <div id="totalKoin" class="value">...</div>
             <div class="label">Claimed</div>
-            <div class="value">0</div>
+            <div id="koinClaimed" class="value">...</div>
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
             <div class="group">
               <p><div class="bold">Step Two:</div> check the address containing the KOIN ERC20 tokens.</p>
               <div class="input-group">
-                <input type="text" id="ethAddress" placeholder="Ethereum Address"/>
+                <input type="text" id="inputEthAddress" placeholder="Ethereum Address"/>
                 <button onclick="consultClaim()" class="">Verify</button>
               </div>
             </div>
@@ -89,21 +89,14 @@
                 </tr>
                 <tr>
                   <td>KOIN</td>
-                  <td id="erc-balance" class="align-right">
-                    <div id="ethKoinBalance" class="message"></div>
+                  <td id="ethKoinBalance" class="align-right">
                   </td>
                 </tr>
                 <tr>
                   <td>Claiming Balance</td>
-                  <td id="erc-balance" class="align-right">0.00</td>
+                  <td id="claimed" class="align-right"></td>
                 </tr>
               </table>
-            </div>
-            <div class="messages">
-              
-              <div id="claimed" class="message"></div>
-              <div id="message" class="message"></div>
-              <div id="koinAddress" class="message"></div>
             </div>
           </div>
           <div id="kondor-info">
@@ -112,14 +105,13 @@
               <table>
                 <tr>
                   <td>Address</td>
-                  <td id="erc-address" class="align-right"></td>
-                </tr>
-                <tr>
-                  <td>Claimed</td>
-                  <td id="erc-balance" class="align-right">0.00</td>
+                  <td id="koinAddress" class="align-right"></td>
                 </tr>
               </table>
             </div>
+          </div>
+          <div class="messages">
+            <div id="message" class="message"></div>
           </div>
         </div>
       </div>      
@@ -148,7 +140,8 @@
       }).mount('#app')
     </script>
     <script>
-      const inputEthAddress = document.getElementById("ethAddress")
+      const inputEthAddress = document.getElementById("inputEthAddress")
+      const elEthAddress = document.getElementById("ethAddress")
       const elMessage = document.getElementById("message")
       const elEthKoinBalance = document.getElementById("ethKoinBalance")
       const elKoinAddress = document.getElementById("koinAddress")
@@ -185,6 +178,7 @@
             getMetamaskProvider()
           )
           const balance = await ethContract.balanceOf(inputEthAddress.value)
+          elEthAddress.innerText = inputEthAddress.value
           elEthKoinBalance.innerText = `${ethers.utils.formatUnits(
             balance,
             8
@@ -336,6 +330,19 @@
         })
       }
 
+      async function consultGeneralInfo() {
+        try {
+          const claimContract = getClaimContract().functions
+          const { result: { value: info } } = await claimContract.get_info({});
+          document.getElementById("totalEthAccounts").innerText = info.total_eth_accounts;
+          document.getElementById("ethAccountsClaimed").innerText = info.eth_accounts_claimed;
+          document.getElementById("totalKoin").innerText = Number(utils.formatUnits(info.total_koin, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
+          document.getElementById("koinClaimed").innerText = Number(utils.formatUnits(info.koin_claimed, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
+        } catch (error) {
+          elClaimed.innerText = `Claim Error: ${error.message}`
+        }
+      }
+
       async function consultClaim() {
         consultBalanceKoinERC20()
         try {
@@ -344,6 +351,7 @@
           const { result: claim } = await claimContract.check_claim({
             eth_address: inputEthAddress.value,
           })
+          elEthAddress.innerText = inputEthAddress.value
           if (!claim || !claim.value) {
             const errorMessage = `No claim data found for address ${inputEthAddress.value}`
             elClaimed.innerText = errorMessage
@@ -369,6 +377,7 @@
             method: "eth_requestAccounts",
           })
           inputEthAddress.value = accounts[0]
+          elEthAddress.innerText = accounts[0]
           consultClaim()
         } catch (error) {
           notification.show(`MM Connect Error: ${error.message}`)
@@ -395,7 +404,8 @@
         notification.hide()
         try {
           const signer = getMetamaskProvider().getSigner()
-          const message = `claim koins ${inputEthAddress.value}:${koinAddress}`
+          const message = `claim tkoins ${inputEthAddress.value}:${koinAddress}`
+          elEthAddress.innerText = inputEthAddress.value
           const signature = await signer.signMessage(message)
 
           console.log(
