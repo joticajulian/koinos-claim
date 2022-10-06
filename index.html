@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body onload="consultGeneralInfo()">
+    <div class="disclaimer bg-animate">
+      Note: currently the claiming functionality is only for testing, THIS IS NOT FOR MAINNET CLAIMING!
+    </div>
     <div id="app">
       <div class="header">
         <div class="logo">
@@ -37,16 +40,15 @@
             <h2>KOIN Token Claiming</h2>
             <p>Welcome to the Koinos token claiming application. Here you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
           </div>
-          <div class="group">
-            <select v-model="category">
-              <option
-                v-for="option in categories"
-                :value="option"
-                :key="option"
-                :selected="option === category"
-              >{{ option }}</option>
-            </select>
-          </div>
+          <div class="group payer">
+            <span class="bold">Set payer</span>
+            <p>
+              By default, the Koinos Group will pay the transaction fees for claiming your tokens. If you would like to use your own Mana, you can set the payer address by clicking <span class="payer-button" @click="setSelf">here</span>
+            </p>
+            <div v-if="self">
+              <input type="text" placeholder="Payer address...">
+            </div>
+          </div>          
           <div class="group">
             <p><div class="bold">Step One:</div> Connect your metamask wallet containing the KOIN ERC20 tokens</p>
             <button onclick="connectMetamask()"><img src="./static/images/metamask-logo.svg" alt=""> Connect Metamask</button>
@@ -126,18 +128,17 @@
     <script>
       const { createApp } = Vue
     
-      createApp({
-        data() {
-          return {
-            active: false,
-            categories: ['Koinos', 'Someone Else'], event: {category: ''},
-          }
-        },methods: {
-      toggle () {
-        this.active = !this.active
-      }
-    }
-      }).mount('#app')
+    createApp({
+      data() {
+        return {
+          self: false
+        }
+      },methods: {
+        setSelf: function () {
+          this.self = true
+        }
+  }
+    }).mount('#app')
     </script>
     <script>
       const inputEthAddress = document.getElementById("inputEthAddress")
