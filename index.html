@@ -46,7 +46,7 @@
               By default, the Koinos Group will pay the transaction fees for claiming your tokens. If you would like to use your own Mana, you can set the payer address by clicking <span class="payer-button" @click="setSelf">here</span>
             </p>
             <div v-if="self">
-              <input type="text" placeholder="Payer address...">
+              <input type="text" id="payerAddress" placeholder="Payer address...">
             </div>
           </div>          
           <div class="group">
@@ -56,12 +56,12 @@
             <div class="group">
               <p><div class="bold">Step Two:</div> check the address containing the KOIN ERC20 tokens.</p>
               <div class="input-group">
-                <input type="text" id="inputEthAddress" placeholder="Ethereum Address"/>
+                <input type="text" id="inputEthAddress" placeholder="Ethereum Address" onchange="updateEthMessage()"/>
                 <button onclick="consultClaim()" class="">Verify</button>
               </div>
             </div>
           <div class="group">
-            <p><div class="bold">Step Three:</div> Connect your Kondor wallet</p>
+            <p><div class="bold">Step Three:</div> Select your preferred wallet</p>
             <div class="button-group">
               <button onclick="connectKondor()"> 
                 <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,14 +70,36 @@
                 </svg>
                 Connect Kondor
               </button>
-              <span>
-                <a href="">CLI Instructions</a>
-              </span>
+              <button onclick="useKoinosCLI()"> 
+                <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99873 1.28487C5.98747 2.06991 6.42061 2.92927 7.2112 4.13351C7.5616 5.49754 8.09706 6.59242 8.81195 7.81067C8.60128 9.31136 9.00246 10.8485 9.64584 12.3149C9.47883 12.6232 9.38107 12.8431 9.35422 13.1714C8.79147 13.6487 8.36025 14.2107 8.03919 14.8438C7.34116 14.7017 6.7027 14.4774 6.11587 14.182C5.68578 13.7481 5.3552 13.2525 5.20052 12.7268C5.8757 12.5542 6.57166 12.2233 7.16318 11.6979C6.26406 11.9052 5.42351 11.9232 4.6945 11.6852C4.10559 10.8547 3.8202 9.91509 3.918 8.97118C4.68638 9.57745 5.55763 9.9374 6.55626 9.79419C5.46642 9.26069 4.47912 8.57448 3.74843 7.63239C3.6975 6.73208 3.92769 5.95012 4.28826 5.26187C4.94742 6.24089 5.81902 6.97502 6.71618 7.59188C5.82809 6.70048 5.12158 5.60228 4.60232 4.42077C4.81834 3.20638 5.28213 2.17936 5.99873 1.28487Z" fill="#7161EF"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5442 1.28487C12.5555 2.06991 12.1224 2.92927 11.3318 4.13351C10.9814 5.49754 10.4459 6.59241 9.73102 7.81067C9.89639 8.98863 9.68478 10.1891 9.27494 11.3601C9.22023 11.5163 9.24829 13.2224 9.27748 13.2483C9.7971 13.7087 10.1998 14.2444 10.5038 14.8438C11.2018 14.7017 11.8403 14.4774 12.4271 14.182C12.8572 13.7481 13.1878 13.2525 13.3425 12.7268C12.6673 12.5542 11.9713 12.2233 11.3798 11.6979C12.2789 11.9052 13.1195 11.9232 13.8485 11.6852C14.4374 10.8547 14.7228 9.91509 14.625 8.97118C13.8566 9.57745 12.9853 9.9374 11.9867 9.79419C13.0765 9.26068 14.0638 8.57448 14.7945 7.63239C14.8455 6.73208 14.6153 5.95012 14.2547 5.26187C13.5956 6.24089 12.724 6.97501 11.8268 7.59188C12.7149 6.70047 13.4214 5.60228 13.9406 4.42077C13.7246 3.20638 13.2608 2.17936 12.5442 1.28487Z" fill="#7161EF"/>
+                </svg>
+                Koinos CLI
+              </button>
             </div>
           </div>
-          <div id="group-claim" class="group">
+          <div id="block-set-koin-address" class="hide">
+            <p><div class="bold">Step Four:</div> Insert your koinos address</p>
+            <input type="text" id="inputKoinAddress" onchange="updateEthMessage()"/>
+          </div>
+          <div>
+            <button onclick="ethPersonalSign()">Sign with metamask</button>
+            <span class="payer-button" onclick="useMEW()">Sign with a different wallet</span>
+            <div id="block-eth-message" class="hide">
+              <p><a href="https://www.myetherwallet.com/wallet/sign" target="_blank">Go to MEW</a> and sign the following message: <span id="ethMessage"></span></p>
+              <p>Put the message signed below</p>
+              <textarea name="" id="ethSignature" cols="60" rows="10"></textarea>
+            </div>
+          </div>
+          <div id="block-claim-kondor" id="group-claim" class="group">
             <p><div class="bold">Step Four:</div> Claim your KOIN tokens</p>
             <button onclick="claimKoins()">CLAIM KOIN</button>
+          </div>
+          <div id="block-koinos-cli-instructions">
+            <p><div class="bold">Step Four:</div> Get instructions for Koinos CLI</p>
+            <button onclick="getKoinosCLIInstructions()">Koinos CLI instructions</button>
+            <div id="koinos-cli-instructions"></div>
           </div>
         </div>
         <div class="right">
@@ -131,13 +153,13 @@
     createApp({
       data() {
         return {
-          self: false
+          self: false,
         }
       },methods: {
         setSelf: function () {
           this.self = true
-        }
-  }
+        },
+      }
     }).mount('#app')
     </script>
     <script>
@@ -164,6 +186,23 @@
           throw new Error("Metamask is not installed")
         }
         return new ethers.providers.Web3Provider(window.ethereum)
+      }
+
+      function updateEthMessage() {
+        const e = document.getElementById("inputEthAddress").value;
+        const k = document.getElementById("inputKoinAddress").value;
+        document.getElementById("ethMessage").innerText = `claim tkoins ${e}:${k}`;
+      }
+
+      function useKoinosCLI() {
+        document.getElementById("block-set-koin-address").classList.remove("hide");
+        document.getElementById("block-claim-kondor").classList.add("hide");
+        document.getElementById("block-koinos-cli-instructios").classList.remove("hide");
+
+      }
+
+      function useMEW() {
+        document.getElementById("block-eth-message").classList.remove("hide");
       }
 
       async function consultBalanceKoinERC20() {
@@ -379,6 +418,7 @@
           })
           inputEthAddress.value = accounts[0]
           elEthAddress.innerText = accounts[0]
+          updateEthMessage();
           consultClaim()
         } catch (error) {
           notification.show(`MM Connect Error: ${error.message}`)
@@ -394,6 +434,8 @@
           if (accounts.length === 0) throw new Error("No account selected")
           koinAddress = accounts[0].address
           elKoinAddress.innerText = koinAddress
+          document.getElementById("inputKoinAddress").value = koinAddress;
+          updateEthMessage();
         } catch (error) {
           elKoinAddress.innerText = `Error: ${error.message}`
           notification.show(`Kondor Connect Error: ${error.message}`)
@@ -401,38 +443,55 @@
         }
       }
 
-      async function claimKoins() {
+      async function ethPersonalSign() {
         notification.hide()
         try {
           const signer = getMetamaskProvider().getSigner()
-          const message = `claim tkoins ${inputEthAddress.value}:${koinAddress}`
+          const message = document.getElementById("ethMessage").innerText;
           elEthAddress.innerText = inputEthAddress.value
           const signature = await signer.signMessage(message)
 
-          console.log(
-            JSON.stringify(
-              {
-                address: inputEthAddress.value,
-                msg: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(message)),
-                sig: signature,
-                version: "3",
-                signer: "Metamask",
-              },
-              null,
-              2
-            )
-          )
+          document.getElementById("ethSignature").value = JSON.stringify(
+            {
+              address: inputEthAddress.value,
+              msg: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(message)),
+              sig: signature.slice(2),
+              version: "3",
+              signer: "Metamask",
+            },
+            null,
+            2
+          );
+        } catch (error) {
+          notification.show(`Signature error: ${error.message}`)
+          console.error(error)
+        }
+      }
 
-          const claimContract = getClaimContract().functions
-          const { r, s, recoveryParam } = ethers.utils.splitSignature(signature)
+      function getCompactSignature() {
+        notification.hide()
+        try {
+          const ethSignature = JSON.parse(document.getElementById("ethSignature").value)
+          const { r, s, recoveryParam } = ethers.utils.splitSignature("0x"+ethSignature.sig)
           const compactSignature =
-            Number(31 + recoveryParam).toString(16) + r.slice(2) + s.slice(2)
+            Number(31 + recoveryParam).toString(16) + r.slice(2) + s.slice(2);
+          return utils.encodeBase64url(
+            utils.toUint8Array(compactSignature)
+          );
+        } catch (error) {
+          notification.show(`Claim Error: ${error.message}`)
+          console.error(error)
+        }
+      }
+
+      async function claimKoins() {
+        notification.hide()
+        try {
+          const claimContract = getClaimContract().functions
           const { transaction, receipt } = await claimContract.claim({
             eth_address: inputEthAddress.value,
             koin_address: koinAddress,
-            signature: utils.encodeBase64url(
-              utils.toUint8Array(compactSignature)
-            ),
+            signature: getCompactSignature(),
           })
 
           console.log(`transaction ${transaction.id} submitted. Receipt:`)
@@ -448,6 +507,20 @@
           notification.show(
             `Congratulations! Your tokens have been claimed! (<a href="https://koinosexplorer.com/tx/${transaction.id}">transaction</a>)`
           )
+        } catch (error) {
+          notification.show(`Claim Error: ${error.message}`)
+          console.error(error)
+        }
+      }
+
+      async function getKoinosCLIInstructions() {
+        notification.hide()
+        try {
+          document.getElementById("koinos-cli-instructions").innerText = JSON.stringify({
+            eth_address: inputEthAddress.value,
+            koin_address: koinAddress,
+            signature: getCompactSignature(),
+          });
         } catch (error) {
           notification.show(`Claim Error: ${error.message}`)
           console.error(error)
