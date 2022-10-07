@@ -50,18 +50,19 @@
             </div>
           </div>          
           <div class="group">
-            <p><div class="bold">Step One:</div> Connect your metamask wallet containing the KOIN ERC20 tokens</p>
+            <p><div class="bold">Select your Ethereum address:</div> Connect your metamask wallet containing the KOIN ERC20 tokens</p>
             <button @click="connectMetamask()"><img src="./static/images/metamask-logo.svg" alt=""> Connect Metamask</button>
+            <span class="payer-button" @click="useManualEthAddress = true">Set my ethereum address manually</span>
           </div>
-            <div class="group">
-              <p><div class="bold">Step Two:</div> check the address containing the KOIN ERC20 tokens.</p>
-              <div class="input-group">
-                <input type="text" v-model="inputEthAddress" placeholder="Ethereum Address" onchange="updateEthMessage()"/>
-                <button @click="consultClaim()" class="">Verify</button>
-              </div>
+          <div v-if="useManualEthAddress" class="group">
+            <p>Insert your ethereum address</p>
+            <div class="input-group">
+              <input type="text" v-model="inputEthAddress" placeholder="Ethereum Address" onchange="updateEthMessage()"/>
+              <button @click="consultClaim()" class="">Verify</button>
             </div>
+          </div>
           <div class="group">
-            <p><div class="bold">Step Three:</div>{{self}} Select your preferred wallet</p>
+            <p><div class="bold">Select your Koinos address:</div>Select your preferred wallet</p>
             <div class="button-group">
               <button @click="connectKondor()"> 
                 <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,26 +81,26 @@
             </div>
           </div>
           <div v-if="useKoinosCLI">
-            <p><div class="bold">Step Four:</div> Insert your koinos address</p>
+            <p>Insert your koinos address</p>
             <input type="text" v-model="inputKoinAddress"/>
           </div>
-          <div>
+          <div class="group">
+            <p><div class="bold">Sign with your Ethereum wallet:</div></p>
             <button @click="ethPersonalSign()">Sign with metamask</button>
             <span class="payer-button" @click="useMEW = true">Sign with a different wallet</span>
             <div v-if="useMEW">
-              <p><a href="https://www.myetherwallet.com/wallet/sign" target="_blank">Go to MEW</a> and sign the following message: <span>{{ethMessage}}</span></p>
+              <p><a href="https://www.myetherwallet.com/wallet/sign" target="_blank">Go to MEW</a> and sign the following message: <br><span style="word-break: break-all;">{{ethMessage}}</span></p>
               <p>Put the message signed below</p>
               <textarea name="" cols="60" rows="10" v-model="ethSignature"></textarea>
             </div>
           </div>
-          <div v-if="!useKoinosCLI" id="group-claim" class="group">
-            <p><div class="bold">Step Four:</div> Claim your KOIN tokens</p>
+          <div id="group-claim" class="group">
+            <p><div class="bold">Claim your koins:</div></p>
             <button @click="claimKoins()">CLAIM KOIN</button>
-          </div>
-          <div v-else>
-            <p><div class="bold">Step Four:</div> Get instructions for Koinos CLI</p>
-            <button @click="getKoinosCLIInstructions()">Koinos CLI instructions</button>
-            <div>{{cliInstructions}}</div>
+            <span class="payer-button" @click="getKoinosCLIInstructions()">Claim with Koinos CLI</span>
+            <div v-if="seeCLIInstructions">
+              <div style="word-break: break-all;">{{cliInstructions}}</div>
+            </div>
           </div>
         </div>
         <div class="right">
@@ -170,9 +171,11 @@
           claimed: "",
           useKoinosCLI: false,
           useMEW: false,
+          useManualEthAddress: false,
           cliInstructions: "",
           ethSignature: "",
           ethMessage: "",
+          seeCLIInstructions: false,
         }
       },
       watch: {
@@ -457,7 +460,7 @@
   
         getCompactSignature: function () {
           this.message = "";
-          try {console.log("ethsig");console.log(this.ethSignature);
+          try {
             const ethSignature = JSON.parse(this.ethSignature)
             const { r, s, recoveryParam } = ethers.utils.splitSignature("0x"+ethSignature.sig)
             const compactSignature =
@@ -499,6 +502,7 @@
         },
   
         getKoinosCLIInstructions: function () {
+          this.seeCLIInstructions = true;
           this.message = "";
           try {
             this.cliInstructions = JSON.stringify({
