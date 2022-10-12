@@ -34,6 +34,15 @@
           </div>
         </div>
       </div>  
+      <div class="group payer center">
+        <div><span class="bold">Set payer:</span>
+          By default, the Koinos Group will pay the transaction fees for claiming your tokens. If you would like to use your own Mana, you can set the payer address by clicking  <span class="payer-link" @click="setOtherPayer = true"> here</span>
+        </div>
+       
+        <div v-if="setOtherPayer" class="payer-input">
+          <input type="text" v-model="otherPayer" placeholder="Payer address..."><button @click="">Set</button>
+        </div>
+      </div>
       
       <div class="wrapper">
         <div class="">
@@ -41,15 +50,6 @@
             <h2 class="center">KOIN Token Claiming</h2>
             <p class="center">Welcome to the Koinos token claiming application. <br> In four simple teps you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
           </div>
-
-          <!-- <div class="group payer center">
-            <p><span class="bold">Set payer:</span>
-              By default, the Koinos Group will pay the transaction fees for claiming your tokens. If you would like to use your own Mana, you can set the payer address by clicking <span class="payer-button" @click="setOtherPayer = true">here</span>
-            </p>
-            <div v-if="setOtherPayer">
-              <input type="text" v-model="otherPayer" placeholder="Payer address...">
-            </div>
-          </div> -->
           <div class="counter">
             <div class="step active" :class="{'active': step === 1}">
               <div class="number">1</div>

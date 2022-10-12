@@ -236,6 +236,34 @@ select {
   flex-direction: column;
   align-items: center;
 }
+.payer input {
+  width: 100%;
+  font-size: .7em;
+}
+.payer-link {
+  text-decoration: underline;
+  color: var(--purple);
+  cursor: pointer;
+  right: 0;
+  text-align: right;
+}
+.payer p {
+  margin: 0;
+}
+.payer-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 25%;
+  gap: 1em;
+  margin-top: 1em;
+  font-size: .75em;
+  text-align: left;
+}
+.payer-input button {
+  padding: 0.9em 2em;
+}
 .disclaimer {
   width: 100vw;
   left: -10px;
@@ -246,18 +274,6 @@ select {
   font-weight: 700;
   position: relative;
 }
-.payer input {
-  width: 120%;
-}
-.payer-button {
-  text-decoration: underline;
-  color: var(--purple);
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  text-align: right;
-}
-
 .sm-column {
   max-width: 500px;
 }
