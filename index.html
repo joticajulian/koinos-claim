@@ -1,4 +1,5 @@
 <html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <head>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -22,6 +23,8 @@
             <div class="label">Claimed</div>
             <div class="value">{{ethAccountsClaimed}}</div>
           </div>
+        </div>
+        <div class="flex-row">
           <div class="mini-card flex-row">
             <div class="title">
               <img src="./static/images/koinos-icon-purple.svg" alt="">
@@ -39,7 +42,7 @@
         <div class="">
           <div class="group center">
             <h2 class="center">KOIN Token Claiming</h2>
-            <p class="center">Welcome to the Koinos token claiming application. <br> In four simple teps you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
+            <p class="center">Welcome to the Koinos token claiming application. <br> In five simple steps you will be able to connect your ERC20 wallet containing KOIN and claim your native KOIN tokens on the Koinos blockchain.</p>
           </div>
           <div class="counter">
             <div class="step" :class="{'active': step === 1}">
@@ -64,10 +67,11 @@
             </div>
           </div>
           <div v-if="step === 1" class="step-1 card">
+            <div class="heading">Step One</div>
             <div class="toggle-group"><span>Set ethereum address manually</span> <input type="checkbox" v-model="useManualEthAddress"></div>
             <div v-if="useManualEthAddress" class="group step-1b">
               <div class="input-group">
-                <div><div class="heading">Step One</div>Insert your ethereum address</div>
+                <div>Insert your ethereum address</div>
                 <div class="input-group-2">
                   <input type="text" v-model="inputEthAddress" placeholder="Ethereum Address" onchange="updateEthMessage()"/>
                   <button @click="consultClaim()" class="">Verify</button>
@@ -76,19 +80,20 @@
             </div>
             <div v-else class="group step-1a">
               <div class="input-group">
-                <div><div class="heading">Step One</div> Connect your metamask wallet containing the KOIN ERC20 tokens</div>
+                <div>Connect your metamask wallet containing the KOIN ERC20 tokens</div>
                 <button @click="connectMetamask()"><img src="./static/images/metamask-logo.svg" alt=""> Connect Metamask</button>
               </div>
             </div>
-            <div>
-              <button @click="step = 2">next</button>
+            <div class="flow-buttons" style="justify-content:end;">
+              <button class="flow" @click="nextStep()">next</button>
             </div>
           </div>
           <div v-if="step === 2" class="step-2 card">
+            <div class="heading">Step Two</div>
             <div class="toggle-group"><span>Set Koinos address manually</span> <input type="checkbox" v-model="useManualKoinAddress"></div>
             <div  v-if="useManualKoinAddress"  class="group step-2b">
               <div class="input-group">
-                <div><div class="heading">Step Two</div>Insert your Koinos address</div>
+                <div>Insert your Koinos address</div>
                 <div class="input-group-2">
                   <input type="text" v-model="inputKoinAddress"/>
                 </div>
@@ -96,7 +101,7 @@
             </div>
             <div v-else class="group step-2a">
               <div class="input-group">
-                <div><div class="heading">Step Two</div>Connect your koinos wallet to claim your tokens</div>
+                <div>Connect your koinos wallet to claim your tokens</div>
                 <div class="button-group input-group">
                   <button @click="connectKondor()"> 
                     <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,36 +113,38 @@
                 </div>
               </div>
             </div>
-            <div>
-              <button @click="step = 1">back</button>
-              <button @click="step = 3">next</button>
+            <div class="flow-buttons">
+              <button class="flow" @click="step = 1">back</button>
+              <button class="flow" @click="nextStep()">next</button>
             </div>
           </div>
           <div v-if="step === 3" class="step-3 card">
+            <div class="heading">Step Three</div>
             <div class="toggle-group"><span>Sign with a different wallet </span> <input type="checkbox" v-model="useMEW"></div>
             <div v-if="useMEW" class="group step-3b">
               <div class="input-group">
-                <div><div class="heading">Step Three</div><a href="https://www.myetherwallet.com/wallet/sign" target="_blank">Go to MyEtherWallet</a> and sign the following message:</div>
+                <div><a href="https://www.myetherwallet.com/wallet/sign" target="_blank">Go to MyEtherWallet</a> and sign the following message:</div>
                 <p> <br><span style="word-break: break-all;">{{ethMessage}}</span></p>
                 <textarea name="" cols="50" rows="4" v-model="ethSignature" placeholder="Put the message signed below"></textarea>
               </div>
             </div>
             <div v-else class="group step-3a">
               <div class="input-group">
-                <div><div class="heading">Step Three</div>Sign with your Ethereum wallet:</div>
+                <div>Sign with your Ethereum wallet:</div>
                 <button @click="ethPersonalSign()">Sign with metamask</button>
               </div>
             </div>
-            <div>
-              <button @click="step = 2">back</button>
-              <button @click="step = 4">next</button>
+            <div class="flow-buttons">
+              <button class="flow" @click="step = 2">back</button>
+              <button class="flow" @click="nextStep()">next</button>
             </div>
           </div>
           <div v-if="step === 4" class="step-4 card">
+            <div class="heading">Step Four</div>
             <div class="toggle-group"><span>Set payer address manually</span> <input type="checkbox" v-model="useManualPayerAddress"></div>
             <div v-if="useManualPayerAddress" class="group step-1b">
               <div class="input-group">
-                <div><div class="heading">Step Four</div>Insert the payer address</div>
+                <div>Insert the payer address</div>
                 <div class="input-group-2">
                   <input type="text" v-model="inputPayerAddress" placeholder="Payer Address"/>
                 </div>
@@ -145,28 +152,28 @@
             </div>
             <div v-else class="group step-4a">
               <div class="input-group">
-                <div><div class="heading">Step Four</div> By default, the Koinos Group will pay the transaction fees for claiming your tokens. If you would like to use your own Mana, you can set the payer address</div>
+                <div>By default, the Koinos Group will pay the transaction fees for claiming your tokens. If you would like to use your own Mana, you can set the payer address</div>
               </div>
             </div>
-            <div>
-              <button @click="step = 3">back</button>
-              <button @click="step = 5">next</button>
+            <div class="flow-buttons">
+              <button class="flow" @click="step = 3">back</button>
+              <button class="flow" @click="nextStep()">next</button>
             </div>
           </div>
           <div v-if="step === 5" class="step-5 card">
+            <div class="heading">Step Five</div>
             <div class="toggle-group"><span>Claim with Koinos CLI </span> <input type="checkbox" v-model="seeCLIInstructions" @click="getKoinosCLIInstructions();"></div>
             <div id="group-claim" class="group step-4a">
-
               <div v-if="seeCLIInstructions" class="step-4b">
                 <div style="word-break: break-all;">{{cliInstructions}}</div>
               </div>
               <div v-else class="input-group">
-                <div><div class="heading">Step Five</div>Claim your KOIN</div>
+                <div>Claim your KOIN</div>
                 <button @click="claimKoins()">CLAIM KOIN</button>
               </div>
             </div>
-            <div>
-              <button @click="step = 4">back</button>
+            <div class="flow-buttons">
+              <button class="flow" @click="step = 4">back</button>
             </div>
           </div>
         </div>
@@ -242,6 +249,35 @@
         },
       },
       methods: {
+        nextStep() {
+          try {
+            switch(this.step) {
+              case 1:
+                if (!this.inputEthAddress)
+                  throw new Error("Connect your wallet or provide your ethereum address");
+                this.step = 2;
+                break;
+              case 2:
+                if (!this.inputKoinAddress)
+                  throw new Error("Connect your wallet or provide your koin address");
+                this.step = 3;
+                break;
+              case 3:
+                if (!this.ethSignature)
+                  throw new Error("Please sign or provide a signature");
+                this.step = 4;
+                break;
+              case 4:
+                if (!this.inputPayerAddress)
+                  throw new Error("Please provide a payer for the transaction");
+                this.step = 5;
+                break;
+            }
+          } catch(error) {
+            this.message = `Error: ${error.message}`;
+          }
+        },
+
         getMetamaskProvider: function () {
           if (typeof window.ethereum === "undefined") {
             throw new Error("Metamask is not installed")

@@ -12,9 +12,9 @@
 body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
-  font-size: 14px;
   line-height: 1.5;
   color: var(--foreground-color);
+  width: 100%;
   background-color: var(--background-color);
 }
 
@@ -56,7 +56,6 @@ button {
   align-items: center;
   padding: 1rem 2rem;
   gap: 10px;
-  font-size: 0.707rem;
   color: var(--purple);
   border: 1px solid var(--purple);
   border-radius: 4px;
@@ -72,12 +71,10 @@ button:hover {
 }
 p {
   max-width: 90%;
-  font-size: .85em;
   margin-bottom: 4em;
 }
 select {
   padding: 1em;
-  font-size: 0.8em;
 }
 #erc-info {
   margin-left: 1em;
@@ -86,14 +83,28 @@ select {
 #kondor-info {
   margin-left: 1em;
 }
+
+.flow {
+  border-radius: 20px;
+  padding: 0.8rem;
+}
+
+.flow-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 1em 3em;
   background-color: var(--background-color);
   color: var(--foreground-color);
-  font-size: 1em;
   font-weight: 300;
   border-bottom: 1px solid var(--background-color);
 }
@@ -104,7 +115,6 @@ select {
   padding: 2em 3em;
   background-color: var(--background-color);
   color: var(--foreground-color);
-  font-size: .75em;
   font-weight: 300;
   border-top: 1px solid var(--background-color);
   width: 100%;
@@ -210,7 +220,6 @@ select {
   align-items: center;
   justify-content: center;
   padding: 1em;
-  font-size: 0.8em;
   font-weight: 300;
   margin-bottom: 1em;
   width: 100%;
@@ -223,7 +232,6 @@ select {
   text-align: right;
 }
 .messages {
-  font-size: 0.707em;
   font-weight: 300;
   margin: 1em;
   top: 0;
@@ -238,7 +246,6 @@ select {
 }
 .payer input {
   width: 100%;
-  font-size: .7em;
 }
 .payer-link {
   text-decoration: underline;
@@ -258,14 +265,13 @@ select {
   width: 25%;
   gap: 1em;
   margin-top: 1em;
-  font-size: .75em;
   text-align: left;
 }
 .payer-input button {
   padding: 0.9em 2em;
 }
 .disclaimer {
-  width: 100vw;
+  width: 100%;
   left: -10px;
   padding: .5em 1em;
   background: red;
@@ -353,13 +359,6 @@ select {
 }
 
 @media (max-width: 70em) {
-  .wrapper {
-    flex-direction: column;
-    max-width: 100%;
-  }
-  .group {
-    padding: 0 2em;
-  }
   .header {
     flex-direction: column;
   }
@@ -383,24 +382,23 @@ select {
 .card {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding: 1em;
   border: 1px solid var(--purple);
   border-radius: 4px;
   background: rgba(217, 217, 217, 0.1);
   color: var(--foreground-color);
-  font-size: 0.8em;
   font-weight: 300;
-  margin-bottom: 1em;
+  margin: 1em;
   position: relative;
-  padding: 2em 1em 3em 1em;
+  padding: 2em 3em 2em 3em;
   min-height: 20em;
 }
 .card .group {
   justify-content: space-between;
   align-items: flex-start;
   position: relative;
-  width: 90%;
+  width: 100%;
   margin-top: 2em;
 }
 .toggle-group input {
@@ -442,12 +440,11 @@ select {
   justify-content: flex-end;
   padding-right: 3em;
 }
-.group .heading {
+.heading {
   font-size: 2em;
   font-weight: 700;
 }
 
-/* Radio styling */
 .radio {
   margin: 0.5rem;
 }
