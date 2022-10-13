@@ -1,0 +1,138 @@
+{
+    "methods": {
+      "claim": {
+        "argument": "koinos.contracts.claim.claim_arguments",
+        "return": "koinos.contracts.claim.claim_result",
+        "entry_point": 3709549617,
+        "entry-point": "0xdd1b3c31",
+        "read_only": false,
+        "read-only": false
+      },
+      "get_info": {
+        "argument": "koinos.contracts.claim.get_info_arguments",
+        "return": "koinos.contracts.claim.get_info_result",
+        "entry_point": 3179243600,
+        "entry-point": "0xbd7f6850",
+        "read_only": true,
+        "read-only": true
+      },
+      "check_claim": {
+        "argument": "koinos.contracts.claim.check_claim_arguments",
+        "return": "koinos.contracts.claim.check_claim_result",
+        "entry_point": 717646668,
+        "entry-point": "0x2ac66b4c",
+        "read_only": true,
+        "read-only": true
+      }
+    },
+    "types": "CosGCgtjbGFpbS5wcm90bxIWa29pbm9zLmNvbnRyYWN0cy5jbGFpbRoUa29pbm9zL29wdGlvbnMucHJvdG8irgEKCmNsYWltX2luZm8SLAoSdG90YWxfZXRoX2FjY291bnRzGAEgASgNUhB0b3RhbEV0aEFjY291bnRzEjAKFGV0aF9hY2NvdW50c19jbGFpbWVkGAIgASgNUhJldGhBY2NvdW50c0NsYWltZWQSHQoKdG90YWxfa29pbhgDIAEoBFIJdG90YWxLb2luEiEKDGtvaW5fY2xhaW1lZBgEIAEoBFILa29pbkNsYWltZWQiTwoMY2xhaW1fc3RhdHVzEiUKDHRva2VuX2Ftb3VudBgBIAEoBEICMAFSC3Rva2VuQW1vdW50EhgKB2NsYWltZWQYAiABKAhSB2NsYWltZWQifwoPY2xhaW1fYXJndW1lbnRzEiUKC2V0aF9hZGRyZXNzGAEgASgMQgSAtRgCUgpldGhBZGRyZXNzEicKDGtvaW5fYWRkcmVzcxgCIAEoDEIEgLUYBlILa29pbkFkZHJlc3MSHAoJc2lnbmF0dXJlGAMgASgMUglzaWduYXR1cmUiDgoMY2xhaW1fcmVzdWx0IhQKEmdldF9pbmZvX2FyZ3VtZW50cyJLCg9nZXRfaW5mb19yZXN1bHQSOAoFdmFsdWUYASABKAsyIi5rb2lub3MuY29udHJhY3RzLmNsYWltLmNsYWltX2luZm9SBXZhbHVlIj4KFWNoZWNrX2NsYWltX2FyZ3VtZW50cxIlCgtldGhfYWRkcmVzcxgBIAEoDEIEgLUYAlIKZXRoQWRkcmVzcyJQChJjaGVja19jbGFpbV9yZXN1bHQSOgoFdmFsdWUYASABKAsyJC5rb2lub3MuY29udHJhY3RzLmNsYWltLmNsYWltX3N0YXR1c1IFdmFsdWVCPlo8Z2l0aHViLmNvbS9rb2lub3Mva29pbm9zLXByb3RvLWdvbGFuZy9rb2lub3MvY29udHJhY3RzL2NsYWltYgZwcm90bzM=",
+    "koilib_types": {
+      "nested": {
+        "koinos": {
+          "nested": {
+            "contracts": {
+              "nested": {
+                "claim": {
+                  "options": {
+                    "go_package": "github.com/koinos/koinos-proto-golang/koinos/contracts/claim"
+                  },
+                  "nested": {
+                    "claim_info": {
+                      "fields": {
+                        "total_eth_accounts": {
+                          "type": "uint32",
+                          "id": 1
+                        },
+                        "eth_accounts_claimed": {
+                          "type": "uint32",
+                          "id": 2
+                        },
+                        "total_koin": {
+                          "type": "uint64",
+                          "id": 3
+                        },
+                        "koin_claimed": {
+                          "type": "uint64",
+                          "id": 4
+                        }
+                      }
+                    },
+                    "claim_status": {
+                      "fields": {
+                        "token_amount": {
+                          "type": "uint64",
+                          "id": 1,
+                          "options": {
+                            "jstype": "JS_STRING"
+                          }
+                        },
+                        "claimed": {
+                          "type": "bool",
+                          "id": 2
+                        }
+                      }
+                    },
+                    "claim_arguments": {
+                      "fields": {
+                        "eth_address": {
+                          "type": "bytes",
+                          "id": 1,
+                          "options": {
+                            "(btype)": "HEX"
+                          }
+                        },
+                        "koin_address": {
+                          "type": "bytes",
+                          "id": 2,
+                          "options": {
+                            "(btype)": "ADDRESS"
+                          }
+                        },
+                        "signature": {
+                          "type": "bytes",
+                          "id": 3
+                        }
+                      }
+                    },
+                    "claim_result": {
+                      "fields": {}
+                    },
+                    "get_info_arguments": {
+                      "fields": {}
+                    },
+                    "get_info_result": {
+                      "fields": {
+                        "value": {
+                          "type": "claim_info",
+                          "id": 1
+                        }
+                      }
+                    },
+                    "check_claim_arguments": {
+                      "fields": {
+                        "eth_address": {
+                          "type": "bytes",
+                          "id": 1,
+                          "options": {
+                            "(btype)": "HEX"
+                          }
+                        }
+                      }
+                    },
+                    "check_claim_result": {
+                      "fields": {
+                        "value": {
+                          "type": "claim_status",
+                          "id": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
