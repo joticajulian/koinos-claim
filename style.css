@@ -6,14 +6,16 @@
   --background-color: #fff;
   --danger-color: #ff0000;
   --purple: #6f00f6;
+  --purple-lighter: #7161EF;
 }
 
 body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
-  font-size: 16px;
   line-height: 1.5;
   color: var(--foreground-color);
+  width: 100%;
+  margin: 0;
   background-color: var(--background-color);
 }
 
@@ -39,7 +41,7 @@ input {
   background: #f9f4ff;
   border: 1px solid var(--purple);
   border-radius: 4px;
-  width: 75%;
+  width: 50%;
 }
 table {
   width: 100%;
@@ -55,44 +57,77 @@ button {
   align-items: center;
   padding: 1rem 2rem;
   gap: 10px;
-  font-size: 0.707rem;
   color: var(--purple);
   border: 1px solid var(--purple);
   border-radius: 4px;
   background: none;
+  text-transform: uppercase;
 }
 
 button:hover {
   background: #9150e0;
   color: var(--background-color);
   cursor: pointer;
-  transition: .9s;
+  transition: 0.9s;
 }
 p {
   max-width: 90%;
+  margin-bottom: 4em;
+}
+select {
+  padding: 1em;
 }
 #erc-info {
   margin-left: 1em;
-  min-height: 50vh;
+  width: 100%;
 }
 #kondor-info {
   margin-left: 1em;
-  min-height: 50vh;
 }
+
+.flow {
+  border-radius: 20px;
+  padding: 0.8rem;
+}
+
+.flow-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 1em 3em;
   background-color: var(--background-color);
   color: var(--foreground-color);
-  font-size: 1em;
   font-weight: 300;
   border-bottom: 1px solid var(--background-color);
 }
+
+.footer {
+  padding: 2em 0em;
+  background-color: var(--foreground-color);
+  color: #d1d1d1;
+  font-weight: 300;
+  border-top: 1px solid var(--background-color);
+  width: 100%;
+  text-align: center;
+}
+
+.footer > div > a {
+  color: white !important;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;
+  gap: 2em;
 }
 .mini-card {
   column-gap: 1em;
@@ -102,10 +137,6 @@ p {
   display: flex;
   column-gap: 8px;
 }
-.info {
-  column-gap: 2em;
-}
-
 .bold {
   font-weight: 700;
 }
@@ -127,8 +158,17 @@ p {
 }
 .input-group {
   display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 100%;
+}
+.input-group-2 {
+  display: flex;
   flex-direction: row;
   gap: 1em;
+  width: 100%;
+}
+.input-group-2 input {
   width: 100%;
 }
 .right .title {
@@ -139,38 +179,123 @@ p {
 .group {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+}
+.center {
+  text-align: center;
 }
 
 .wrapper {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  max-width: 80%;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
   margin: 0 auto;
 }
-
-.left {
-  width: 100vw;
-}
-.right {
-  padding: 2em;
+.counter {
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding-left: 2em;
-  width: 60vw;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1em;
+  margin-bottom: 1em;
+  width: 100%;
+}
+.step {
+  background: silver;
+  width: 3em;
+  height: 3em;
+  text-align: center;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.active {
+  background: var(--purple-lighter);
+  color: var(--background-color);
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  font-weight: 300;
+  margin-bottom: 1em;
+  width: 100%;
+}
+.info .title {
+  font-weight: 700;
+  margin: 0.5em 0;
 }
 .align-right {
   text-align: right;
 }
 .messages {
-  font-size: 1em;
   font-weight: 300;
   margin: 1em;
   top: 0;
   padding: 0.2em 3em;
+  text-align: center;
+  color: rgb(226, 53, 23);
+}
+.payer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.payer input {
+  width: 100%;
+}
+.payer-link {
+  text-decoration: underline;
+  color: var(--purple);
+  cursor: pointer;
+  right: 0;
+  text-align: right;
+}
+.payer p {
+  margin: 0;
+}
+.payer-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 25%;
+  gap: 1em;
+  margin-top: 1em;
+  text-align: left;
+}
+.payer-input button {
+  padding: 0.9em 2em;
+}
+.disclaimer {
+  padding: .5em 1em;
+  background: red;
+  color: white;
+  text-align: center;
+  font-weight: 700;
+  position: relative;
+}
+.sm-column {
+  max-width: 500px;
+}
+
+.hide {
+  display: none !important;
+}
+
+.console {
+  font-family: monospace;
+  white-space: break-spaces;
+  margin: 1em 0em;
+  max-width: 100%;
+  background: black;
+  color: white;
+  padding: 1em;
 }
 
 .button-85 {
@@ -245,13 +370,6 @@ p {
 }
 
 @media (max-width: 70em) {
-  .wrapper {
-    flex-direction: column;
-    max-width: 100%;
-  }
-  .group {
-    padding: 0 2em;
-  }
   .header {
     flex-direction: column;
   }
@@ -264,7 +382,176 @@ p {
     padding-left: 0.5em;
     margin-top: 2em;
   }
-  #erc-info, #koinos-info {
+  #erc-info,
+  #koinos-info {
     min-height: 0;
+  }
+}
+
+/* CARD */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1em;
+  border: 1px solid var(--purple);
+  border-radius: 4px;
+  background: rgba(217, 217, 217, 0.1);
+  color: var(--foreground-color);
+  font-weight: 300;
+  margin: 1em;
+  position: relative;
+  padding: 2em 3em 2em 3em;
+  min-height: 20em;
+}
+.card .group {
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  margin-top: 2em;
+}
+.toggle-group input {
+  -webkit-appearance: none;
+  position: relative;
+  width: 20px;
+  height: 4px;
+  border-radius: 25px;
+  background-color: #ccc;
+  transition: background .3s;
+  outline: none;
+  cursor: pointer;
+  border: none;
+}
+.toggle-group input::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  height: 1.4rem;
+  width: 1.4rem;
+  background-color: white;
+  transition: left .4s;
+}
+.toggle-group input:checked {
+  background-color: #27AE60;
+}
+.toggle-group input:checked::after {
+  left: 70%;
+}
+.toggle-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
+  justify-content: flex-end;
+  padding-right: 3em;
+}
+.heading {
+  font-size: 2em;
+  font-weight: 700;
+}
+
+.radio {
+  margin: 0.5rem;
+}
+.radio input[type=radio] {
+  position: absolute;
+  opacity: 0;
+}
+.radio input[type=radio] + .radio-label:before {
+  content: "";
+  background: #f4f4f4;
+  border-radius: 100%;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  position: relative;
+  top: -0.2em;
+  margin-right: 1em;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  transition: all 250ms ease;
+}
+.radio input[type=radio]:checked + .radio-label:before {
+  background-color: #3197EE;
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+}
+.radio input[type=radio]:focus + .radio-label:before {
+  outline: none;
+  border-color: #3197EE;
+}
+.radio input[type=radio]:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+.radio input[type=radio] + .radio-label:empty:before {
+  margin-right: 0;
+}
+
+
+.bg-animate {
+  background: linear-gradient(
+    315deg,
+    #ec093a,
+    #be1616,
+    #f62500,
+    #d80808
+  );
+  background-size: 1000% 1000%;
+  -webkit-animation: AnimateBg 6s ease infinite;
+  -moz-animation: AnimateBg 6s ease infinite;
+  -o-animation: AnimateBg 6s ease infinite;
+  animation: AnimateBg 6s ease infinite;
+}
+@-webkit-keyframes AnimateBg {
+  0% {
+    background-position: 0% 63%;
+  }
+  50% {
+    background-position: 100% 38%;
+  }
+  100% {
+    background-position: 0% 63%;
+  }
+}
+@-moz-keyframes AnimateBg {
+  0% {
+    background-position: 0% 63%;
+  }
+  50% {
+    background-position: 100% 38%;
+  }
+  100% {
+    background-position: 0% 63%;
+  }
+}
+@-o-keyframes AnimateBg {
+  0% {
+    background-position: 0% 63%;
+  }
+  50% {
+    background-position: 100% 38%;
+  }
+  100% {
+    background-position: 0% 63%;
+  }
+}
+@keyframes AnimateBg {
+  0% {
+    background-position: 0% 63%;
+  }
+  50% {
+    background-position: 100% 38%;
+  }
+  100% {
+    background-position: 0% 63%;
   }
 }
