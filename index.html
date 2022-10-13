@@ -160,7 +160,8 @@
             <div class="toggle-group"><span>Claim with Koinos CLI </span> <input type="checkbox" v-model="seeCLIInstructions" @click="getKoinosCLIInstructions();"></div>
             <div id="group-claim" class="group step-4a">
               <div v-if="seeCLIInstructions" class="step-4b">
-                <div style="word-break: break-all;">{{cliInstructions}}</div>
+                <div><a href="claim-abi.json" download target="_blank">Download claim-abi.json</a> in the folder of koinos-cli. Start the CLI and run the following commands:</div>
+                <div style="word-break: break-all;"><p class="console">{{cliInstructions}}</p></div>
               </div>
               <div v-else class="input-group">
                 <div>Claim your KOIN</div>
@@ -594,11 +595,17 @@
           this.seeCLIInstructions = !this.seeCLIInstructions;
           this.message = "";
           try {
-            this.cliInstructions = JSON.stringify({
-              eth_address: this.inputEthAddress,
-              koin_address: this.inputKoinAddress,
-              signature: this.getCompactSignature(),
-            });
+            this.cliInstructions = `🔓 > connect http://api.koinos.io:8080
+
+🔓 > register claim 15XWhAV99fSmz8z9vrA5j9rwwBpXMPHkBQ claim-abi.json
+
+🔓 > import <set-your-private-key> imported.wallet password1234
+
+🔓 > open imported.wallet password1234${this.inputKoinAddress !== this.inputPayerAddress ? `
+
+🔓 > payer ${this.inputPayerAddress}` : ""}
+
+🔓 > claim.claim ${this.infoEthAddress} ${this.inputKoinAddress} ${this.getCompactSignature()}`
           } catch (error) {
             this.message = `Claim Error: ${error.message}`;
             console.error(error)
