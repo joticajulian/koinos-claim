@@ -7,7 +7,7 @@
     <div class="disclaimer bg-animate">
       *** Koinos Testnet v4 *** Claiming functionality only for testing, THIS IS NOT FOR MAINNET CLAIMING!
     </div>
-    <div id="app" onload="consultGeneralInfo()">
+    <div id="app">
       <div class="header">
         <div class="logo">
           <img src="./static/images/koinos-logo.png" />
@@ -96,7 +96,7 @@
             </div>
             <div v-else class="group step-2a">
               <div class="input-group">
-                <div>Connect your koinos wallet to claim your tokens</div>
+                <div>Connect your koinos wallet to claim your tokens (<a href="https://chrome.google.com/webstore/detail/kondor/ghipkefkpgkladckmlmdnadmcchefhjl" target="_blank">Install Kondor</a>)</div>
                 <div class="button-group input-group">
                   <button @click="connectKondor()"> 
                     <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -160,7 +160,7 @@
             <div class="toggle-group"><span>Claim with Koinos CLI </span> <input type="checkbox" v-model="seeCLIInstructions" @click="getKoinosCLIInstructions();"></div>
             <div id="group-claim" class="group step-4a">
               <div v-if="seeCLIInstructions" class="step-4b">
-                <div><a href="claim-abi.json" download target="_blank">Download claim-abi.json</a> in the folder of koinos-cli. Start the CLI and run the following commands:</div>
+                <div><a href="claim-abi.json" download target="_blank">Download claim-abi.json</a> in the koinos-cli folder. Start the CLI and run the following commands:</div>
                 <div style="word-break: break-all;"><p class="console">{{cliInstructions}}</p></div>
               </div>
               <div v-else class="input-group">
@@ -192,12 +192,12 @@
             </div>
           </div>
         </div>
-        <!-- <div class="footer">
-          <div>With ❤️ by <a href="https://github.com/sponsors/joticajulian">@joticajulian</a>.</div>
-          <div>Contribute to this development by sending Koins to 1z629tURV9KAK6Q5yqFDozwSHeWshxXQe or becoming a sponsor in <a href="https://github.com/sponsors/joticajulian">Github sponsors</a>
-          </div> -->
       </div>
+      <div class="footer">
+        <div>With ❤️ by <a href="https://github.com/sponsors/joticajulian">@joticajulian</a>.</div>
+        <div>Consider sending a donation to 1z629tURV9KAK6Q5yqFDozwSHeWshxXQe (Koin) or becoming a sponsor at <a href="https://github.com/sponsors/joticajulian">Github sponsors</a>
       </div>
+    </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script
@@ -243,6 +243,9 @@
         inputEthAddress: function(val) {
           this.ethMessage = `claim tkoins ${val}:${this.inputKoinAddress}`;
         },
+      },
+      mounted() {
+        setTimeout(this.consultGeneralInfo, 1000);
       },
       methods: {
         nextStep() {
@@ -452,12 +455,13 @@
   
         consultGeneralInfo: async function () {
           try {
-            const claimContract = this.getClaimContract().functions
+            const claimContract = this.getClaimContract().functions;
             const { result: { value: info } } = await claimContract.get_info({});
             this.totalEthAccounts = info.total_eth_accounts;
             this.ethAccountsClaimed = info.eth_accounts_claimed;
             this.totalKoin = Number(utils.formatUnits(info.total_koin, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
             this.koinClaimed = Number(utils.formatUnits(info.koin_claimed, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
+            console.log(this.koinClaimed)
           } catch (error) {
             this.claimed = `Claim Error: ${error.message}`
           }
