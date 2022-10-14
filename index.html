@@ -158,10 +158,15 @@
           <div v-if="step === 5" class="step-5 card">
             <div class="heading">Step Five</div>
             <div class="toggle-group"><span>Claim with Koinos CLI </span> <input type="checkbox" v-model="seeCLIInstructions" @click="getKoinosCLIInstructions();"></div>
+            <div class="toggle-group"><span>Claim with Kondor </span> <input type="checkbox" v-model="useClaimWithKondor"></div>
             <div id="group-claim" class="group step-4a">
               <div v-if="seeCLIInstructions" class="step-4b">
                 <div><a href="claim-abi.json" download target="_blank">Download claim-abi.json</a> in the koinos-cli folder. Start the CLI and run the following commands:</div>
                 <div style="word-break: break-all;"><p class="console">{{cliInstructions}}</p></div>
+              </div>
+              <div v-else-if="useClaimWithKondor" class="input-group">
+                <div>Claim your KOIN with Kondor</div>
+                <button @click="claimKoins('use-kondor')">CLAIM KOIN</button>
               </div>
               <div v-else class="input-group">
                 <div>Claim your KOIN</div>
@@ -199,16 +204,18 @@
       </div>
     </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script
       src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"
       type="text/javascript"
     ></script>
     <script src="js/kondor.js"></script>
     <script src="js/koinos.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </body>
     <script>
       const { createApp } = Vue
       let rcLimit = 1e9;
+      let defaultKoinosProvider = "https://api.koinosblocks.com";
     
     createApp({
       data() {
@@ -229,6 +236,7 @@
           useManualEthAddress: false,
           useManualKoinAddress: false,
           useManualPayerAddress: false,
+          useClaimWithKondor: false,
           cliInstructions: "",
           ethSignature: "",
           ethMessage: "",
@@ -279,7 +287,8 @@
 
         getMetamaskProvider: function () {
           if (typeof window.ethereum === "undefined") {
-            throw new Error("Metamask is not installed")
+            //throw new Error("Metamask is not installed")
+            return new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/ae744e3ec50e4ad38b79f90007a1445b");
           }
           return new ethers.providers.Web3Provider(window.ethereum)
         },
@@ -309,7 +318,17 @@
           }
         },
   
-        getClaimContract: function () {
+        getClaimContract: function (option) {
+          // const provider = kondor.provider;
+          const provider = new Provider([defaultKoinosProvider]);
+          let signer;
+          if (option === "use-kondor") {
+            signer = kondor.getSigner(this.inputKoinAddress);
+          } else {
+            signer = Signer.fromSeed("any signer");
+            signer.provider = provider;
+          }
+
           return new Contract({
             id: "15XWhAV99fSmz8z9vrA5j9rwwBpXMPHkBQ",
             abi: {
@@ -444,8 +463,8 @@
                 },
               },
             },
-            provider: kondor.provider,
-            signer: kondor.getSigner(this.inputKoinAddress),
+            provider,
+            signer,
             options: {
               payer: this.inputPayerAddress,
               rcLimit: Number(rcLimit).toString(),
@@ -461,9 +480,8 @@
             this.ethAccountsClaimed = info.eth_accounts_claimed;
             this.totalKoin = Number(utils.formatUnits(info.total_koin, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
             this.koinClaimed = Number(utils.formatUnits(info.koin_claimed, 8)).toLocaleString('en-US', { maximumFractionDigits: 8});
-            console.log(this.koinClaimed)
           } catch (error) {
-            this.claimed = `Claim Error: ${error.message}`
+            this.message = `General info error: ${error.message}`
           }
         },
   
@@ -477,7 +495,7 @@
             })
             this.infoEthAddress = this.inputEthAddress
             if (!claim || !claim.value) {
-              const errorMessage = `No claim data found for address ${inputEthAddress.value}`
+              const errorMessage = `No claim data found for address ${this.inputEthAddress}`
               this.claimed = errorMessage
               console.log(claim)
               throw new Error(errorMessage)
@@ -489,7 +507,7 @@
               claim.value.claimed ? "already claimed" : "ready to be claimed"
             }`
           } catch (error) {
-            this.claimed = `Claim Error: ${error.message}`
+            this.claimed = `Consult claim Error: ${error.message}`
           }
         },
   
@@ -563,15 +581,15 @@
               utils.toUint8Array(compactSignature)
             );
           } catch (error) {
-            this.message = `Claim Error: ${error.message}`;
+            this.message = `Compact signature error: ${error.message}`;
             console.error(error)
           }
         },
   
-        claimKoins: async function () {
+        claimKoins: async function (option) {
           this.message = "";
           try {
-            const claimContract = this.getClaimContract().functions
+            const claimContract = this.getClaimContract(option).functions
             const { transaction, receipt } = await claimContract.claim({
               eth_address: this.inputEthAddress,
               koin_address: this.inputKoinAddress,
@@ -597,6 +615,8 @@
   
         getKoinosCLIInstructions: function () {
           this.seeCLIInstructions = !this.seeCLIInstructions;
+          if (!this.seeCLIInstructions) return;
+          this.useClaimWithKondor = false;
           this.message = "";
           try {
             this.cliInstructions = `🔓 > connect http://api.koinos.io:8080
@@ -611,12 +631,12 @@
 
 🔓 > claim.claim ${this.infoEthAddress} ${this.inputKoinAddress} ${this.getCompactSignature()}`
           } catch (error) {
-            this.message = `Claim Error: ${error.message}`;
+            this.message = `cli instructions error: ${error.message}`;
             console.error(error)
           }
         }
       }
     }).mount('#app')
     </script>
-  </body>
+  
 </html>

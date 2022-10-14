@@ -446,6 +446,7 @@ select {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: 5px;
   gap: 1em;
   width: 100%;
   justify-content: flex-end;
