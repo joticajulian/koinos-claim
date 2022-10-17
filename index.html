@@ -62,8 +62,8 @@
             </div>
           </div>
           <div v-if="step === 1" class="step-1 card">
-            <div class="heading">Step One</div>
             <div class="toggle-group"><span>Set ethereum address manually</span> <input type="checkbox" v-model="useManualEthAddress"></div>
+            <div class="heading">Step One</div>
             <div v-if="useManualEthAddress" class="group step-1b">
               <div class="input-group">
                 <div>Insert your ethereum address</div>
@@ -80,12 +80,12 @@
               </div>
             </div>
             <div class="flow-buttons" style="justify-content:end;">
-              <button class="flow" @click="nextStep()">next</button>
+              <button class="flow" @click="nextStep()">next <img src="./static/images/arrow.svg" alt=""></button>
             </div>
           </div>
           <div v-if="step === 2" class="step-2 card">
-            <div class="heading">Step Two</div>
             <div class="toggle-group"><span>Set Koinos address manually</span> <input type="checkbox" v-model="useManualKoinAddress"></div>
+            <div class="heading">Step Two</div>
             <div  v-if="useManualKoinAddress"  class="group step-2b">
               <div class="input-group">
                 <div>Insert your Koinos address</div>
@@ -109,18 +109,18 @@
               </div>
             </div>
             <div class="flow-buttons">
-              <button class="flow" @click="step = 1">back</button>
-              <button class="flow" @click="nextStep()">next</button>
+              <button class="flow" @click="step = 1"><img src="./static/images/arrow-left.svg" alt=""> back</button>
+              <button class="flow" @click="nextStep()">next <img src="./static/images/arrow.svg" alt=""></button>
             </div>
           </div>
           <div v-if="step === 3" class="step-3 card">
-            <div class="heading">Step Three</div>
             <div class="toggle-group"><span>Sign with a different wallet </span> <input type="checkbox" v-model="useMEW"></div>
+            <div class="heading">Step Three</div>
             <div v-if="useMEW" class="group step-3b">
               <div class="input-group">
                 <div><a href="https://www.myetherwallet.com/wallet/sign" target="_blank">Go to MyEtherWallet</a> and sign the following message:</div>
-                <p> <br><span style="word-break: break-all;">{{ethMessage}}</span></p>
-                <textarea name="" cols="50" rows="4" v-model="ethSignature" placeholder="Put the message signed below"></textarea>
+                <div><span class="eth-message">{{ethMessage}}</span></div>
+                <textarea name="" cols="40" rows="4" v-model="ethSignature" placeholder="Paste signature here"></textarea>
               </div>
             </div>
             <div v-else class="group step-3a">
@@ -130,13 +130,13 @@
               </div>
             </div>
             <div class="flow-buttons">
-              <button class="flow" @click="step = 2">back</button>
-              <button class="flow" @click="nextStep()">next</button>
+              <button class="flow" @click="step = 2"><img src="./static/images/arrow-left.svg" alt=""> back</button>
+              <button class="flow" @click="nextStep()">next <img src="./static/images/arrow.svg" alt=""></button>
             </div>
           </div>
           <div v-if="step === 4" class="step-4 card">
-            <div class="heading">Step Four</div>
             <div class="toggle-group"><span>Set payer address manually</span> <input type="checkbox" v-model="useManualPayerAddress"></div>
+            <div class="heading">Step Four</div>
             <div v-if="useManualPayerAddress" class="group step-1b">
               <div class="input-group">
                 <div>Insert the payer address</div>
@@ -147,18 +147,18 @@
             </div>
             <div v-else class="group step-4a">
               <div class="input-group">
-                <div>By default, the Koinos Group will pay the transaction fees for claiming your tokens. If you would like to use your own Mana, you can set the payer address</div>
+                <div>By default, the Koinos Group will pay the Mana for claiming your tokens. If you would like to use your own Mana, you can set the payer address manually by clicking above.</div>
               </div>
             </div>
             <div class="flow-buttons">
-              <button class="flow" @click="step = 3">back</button>
-              <button class="flow" @click="nextStep()">next</button>
+              <button class="flow" @click="step = 3"><img src="./static/images/arrow-left.svg" alt=""> back</button>
+              <button class="flow" @click="nextStep()">next <img src="./static/images/arrow.svg" alt=""></button>
             </div>
           </div>
           <div v-if="step === 5" class="step-5 card">
+            <div class="modal-button"><span @click="getKoinosCLIInstructions();">Claim with Koinos CLI </span></div>
             <div class="heading">Step Five</div>
-            <div class="toggle-group"><span>Claim with Koinos CLI </span> <input type="checkbox" v-model="seeCLIInstructions" @click="getKoinosCLIInstructions();"></div>
-            <div class="toggle-group"><span>Claim with Kondor </span> <input type="checkbox" v-model="useClaimWithKondor"></div>
+            <div class="toggle-group left"><span>Claim with Kondor </span> <input type="checkbox" v-model="useClaimWithKondor"></div>
             <div id="group-claim" class="group step-4a">
               <div v-if="seeCLIInstructions" class="step-4b">
                 <div><a href="claim-abi.json" download target="_blank">Download claim-abi.json</a> in the koinos-cli folder. Start the CLI and run the following commands:</div>
@@ -169,12 +169,12 @@
                 <button @click="claimKoins('use-kondor')">CLAIM KOIN</button>
               </div>
               <div v-else class="input-group">
-                <div>Claim your KOIN</div>
+                <div>Claim your KOIN with Metamask</div>
                 <button @click="claimKoins()">CLAIM KOIN</button>
               </div>
             </div>
             <div class="flow-buttons">
-              <button class="flow" @click="step = 4">back</button>
+              <button class="flow" @click="step = 4"><img src="./static/images/arrow-left.svg" alt=""> back</button>
             </div>
           </div>
         </div>
