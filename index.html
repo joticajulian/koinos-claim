@@ -169,7 +169,7 @@
                 <button @click="claimKoins('use-kondor')">CLAIM KOIN</button>
               </div>
               <div v-else class="input-group">
-                <div>Claim your KOIN with Metamask</div>
+                <div>Claim your KOIN without providing the koin signature (not recommended)</div>
                 <button @click="claimKoins()">CLAIM KOIN</button>
               </div>
             </div>
@@ -236,7 +236,7 @@
           useManualEthAddress: false,
           useManualKoinAddress: false,
           useManualPayerAddress: false,
-          useClaimWithKondor: false,
+          useClaimWithKondor: true,
           cliInstructions: "",
           ethSignature: "",
           ethMessage: "",
@@ -257,26 +257,34 @@
       },
       methods: {
         nextStep() {
+          this.message = "";
           try {
             switch(this.step) {
               case 1:
                 if (!this.inputEthAddress)
                   throw new Error("Connect your wallet or provide your ethereum address");
+                if (!ethers.utils.isAddress(this.inputEthAddress))
+                  throw new Error(`${this.inputEthAddress} is an invalid ethereum address`);
                 this.step = 2;
                 break;
               case 2:
                 if (!this.inputKoinAddress)
                   throw new Error("Connect your wallet or provide your koin address");
+                if (!utils.isChecksumAddress(this.inputKoinAddress))
+                  throw new Error(`${this.inputKoinAddress} is an invalid koin address`);
                 this.step = 3;
                 break;
               case 3:
                 if (!this.ethSignature)
                   throw new Error("Please sign or provide a signature");
+                this.validateEthSignature();
                 this.step = 4;
                 break;
               case 4:
                 if (!this.inputPayerAddress)
                   throw new Error("Please provide a payer for the transaction");
+                if (!utils.isChecksumAddress(this.inputPayerAddress))
+                  throw new Error(`${this.inputPayerAddress} is an invalid koin address`);
                 this.step = 5;
                 break;
             }
@@ -514,7 +522,6 @@
         connectMetamask: async function () {
           this.message = "";
           try {
-            console.log('Connecting to Metamask...')
             this.getMetamaskProvider()
             const accounts = await ethereum.request({
               method: "eth_requestAccounts",
@@ -523,7 +530,6 @@
             this.infoEthAddress = accounts[0]
             this.consultClaim()
             document.getElementById("info").classList.remove("hidden")
-            console.log('ok')
           } catch (error) {
             this.message = `MM Connect Error: ${error.message}`;
             console.error(error)
@@ -544,6 +550,15 @@
             this.message = `Kondor Connect Error: ${error.message}`;
             console.error(error)
           }
+        },
+
+        validateEthSignature: function () {
+          const sig = JSON.parse(this.ethSignature);
+          if (sig.address !== this.inputEthAddress)
+            throw new Error(`The signer must be ${this.inputEthAddress}. Received ${sig.address}`);
+          const message = ethers.utils.toUtf8String(ethers.utils.arrayify(sig.msg));
+          if (message !== this.ethMessage)
+            throw new Error(`Expected message "${this.ethMessage}". Received "${message}"`);
         },
   
         ethPersonalSign: async function () {
