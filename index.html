@@ -246,10 +246,10 @@
       },
       watch: {
         inputKoinAddress: function(val) {
-          this.ethMessage = `claim tkoin ${this.inputEthAddress}:${val}`;
+          this.ethMessage = `claim tkoins ${this.inputEthAddress}:${val}`;
         },
         inputEthAddress: function(val) {
-          this.ethMessage = `claim tkoin ${val}:${this.inputKoinAddress}`;
+          this.ethMessage = `claim tkoins ${val}:${this.inputKoinAddress}`;
         },
       },
       mounted() {
