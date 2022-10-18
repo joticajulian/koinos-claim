@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "copyfiles": "^2.4.1",
-    "koilib": "^5.0.0",
-    "kondor-js": "^0.3.0"
+    "koilib": "^5.2.0",
+    "kondor-js": "^0.3.2"
   },
   "devDependencies": {
     "eslint": "^6.7.2",
