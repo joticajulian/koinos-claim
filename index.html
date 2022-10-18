@@ -169,7 +169,9 @@
                 <button @click="claimKoins('use-kondor')">CLAIM KOIN</button>
               </div>
               <div v-else class="input-group">
-                <div>Claim your KOIN without providing the koin signature (not recommended)</div>
+                <div>Claim your KOIN without the koin signature.
+                  Make sure the koin address is a compressed address and you have the private key.
+                </div>
                 <button @click="claimKoins()">CLAIM KOIN</button>
               </div>
             </div>
