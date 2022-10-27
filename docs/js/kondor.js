@@ -377,68 +377,9 @@ exports["default"] = exports.provider;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getSigner = exports.signer = void 0;
+exports.getSigner = void 0;
 const Messenger_1 = __webpack_require__(698);
 const messenger = new Messenger_1.Messenger({});
-function warnDeprecated(fnName) {
-    console.warn(`The function kondor.signer.${fnName} will be deprecated in the future. Please use kondor.getSigner(signerAddress).${fnName}`);
-}
-exports.signer = {
-    getAddress: () => {
-        warnDeprecated("getAddress");
-        throw new Error("getAddress is not available. Please use getAccounts from kondor");
-    },
-    getPrivateKey: () => {
-        warnDeprecated("getPrivateKey");
-        throw new Error("getPrivateKey is not available");
-    },
-    signTransaction: () => {
-        warnDeprecated("signTransaction");
-        throw new Error("signTransaction is not available. Use sendTransaction instead");
-    },
-    signHash: () => {
-        warnDeprecated("signHash");
-        throw new Error("signHash is not available. Use sendTransaction instead");
-    },
-    signMessage: () => {
-        warnDeprecated("signMessage");
-        throw new Error("signMessage is not available. Use sendTransaction instead");
-    },
-    prepareBlock: () => {
-        warnDeprecated("prepareBlock");
-        throw new Error("prepareBlock is not available");
-    },
-    signBlock: () => {
-        warnDeprecated("signBlock");
-        throw new Error("signBlock is not available");
-    },
-    prepareTransaction: async (transaction) => {
-        warnDeprecated("prepareTransaction");
-        const tx = await messenger.sendDomMessage("background", "signer:prepareTransaction", { transaction });
-        return tx;
-    },
-    sendTransaction: async (tx, broadcast, abis) => {
-        warnDeprecated("sendTransaction");
-        const { transaction, receipt } = await messenger.sendDomMessage("popup", "signer:sendTransaction", {
-            transaction: tx,
-            broadcast,
-            abis,
-        });
-        return {
-            receipt,
-            transaction: {
-                ...transaction,
-                wait: async (type = "byBlock", timeout = 30000) => {
-                    return messenger.sendDomMessage("background", "provider:wait", {
-                        txId: transaction.id,
-                        type,
-                        timeout,
-                    });
-                },
-            },
-        };
-    },
-};
 function getSigner(signerAddress) {
     return {
         getAddress: () => signerAddress,
@@ -468,12 +409,11 @@ function getSigner(signerAddress) {
                 abis,
             });
         },
-        sendTransaction: async (tx, broadcast, abis) => {
+        sendTransaction: async (tx, optsSend) => {
             const response = await messenger.sendDomMessage("popup", "signer:sendTransaction", {
                 signerAddress,
                 transaction: tx,
-                broadcast,
-                abis,
+                optsSend,
             });
             response.transaction.wait = async (type = "byBlock", timeout = 60000) => {
                 return messenger.sendDomMessage("background", "provider:wait", {
@@ -536,7 +476,7 @@ __webpack_unused_export__ = ({ value: true });
 const provider_1 = __webpack_require__(599);
 const signer_1 = __webpack_require__(942);
 const account_1 = __webpack_require__(339);
-window.kondor = { provider: provider_1.provider, signer: signer_1.signer, getSigner: signer_1.getSigner, getAccounts: account_1.getAccounts };
+window.kondor = { provider: provider_1.provider, getSigner: signer_1.getSigner, getAccounts: account_1.getAccounts };
 
 })();
 
