@@ -68,7 +68,7 @@
               <div class="input-group">
                 <div>Insert your ethereum address</div>
                 <div class="input-group-2">
-                  <input type="text" v-model="inputEthAddress" placeholder="Ethereum Address" onchange="updateEthMessage()"/>
+                  <input type="text" v-model="inputEthAddress" placeholder="Ethereum Address"/>
                   <button @click="consultClaim()" class="">Verify</button>
                 </div>
               </div>
@@ -201,6 +201,7 @@
         </div>
       </div>
       <div class="footer">
+        <div>Koinos claim v{{version}}</div>
         <div>With ❤️ by <a href="https://github.com/sponsors/joticajulian">@joticajulian</a>.</div>
         <div>Consider sending a donation to 1z629tURV9KAK6Q5yqFDozwSHeWshxXQe (Koin) or becoming a sponsor at <a href="https://github.com/sponsors/joticajulian">Github sponsors</a>
       </div>
@@ -244,18 +245,22 @@
           ethMessage: "",
           seeCLIInstructions: false,
           step: 1,
+          version: "loading..."
         }
       },
       watch: {
         inputKoinAddress: function(val) {
-          this.ethMessage = `claim tkoins ${this.inputEthAddress}:${val}`;
+          this.ethMessage = `claim tkoins ${this.inputEthAddress.toLowerCase()}:${val}`;
         },
         inputEthAddress: function(val) {
-          this.ethMessage = `claim tkoins ${val}:${this.inputKoinAddress}`;
+          this.ethMessage = `claim tkoins ${val.toLowerCase()}:${this.inputKoinAddress}`;
         },
       },
       mounted() {
         setTimeout(this.consultGeneralInfo, 1000);
+        fetch("./package.json")
+          .then((res) => res.json())
+          .then((data) => {this.version = data.version});
       },
       methods: {
         nextStep() {
@@ -556,7 +561,7 @@
 
         validateEthSignature: function () {
           const sig = JSON.parse(this.ethSignature);
-          if (sig.address !== this.inputEthAddress)
+          if (sig.address.toLowerCase() !== this.inputEthAddress.toLowerCase())
             throw new Error(`The signer must be ${this.inputEthAddress}. Received ${sig.address}`);
           const message = ethers.utils.toUtf8String(ethers.utils.arrayify(sig.msg));
           if (message !== this.ethMessage)
@@ -608,7 +613,7 @@
           try {
             const claimContract = this.getClaimContract(option).functions
             const { transaction, receipt } = await claimContract.claim({
-              eth_address: this.inputEthAddress,
+              eth_address: this.inputEthAddress.toLowerCase(),
               koin_address: this.inputKoinAddress,
               signature: this.getCompactSignature(),
             })
