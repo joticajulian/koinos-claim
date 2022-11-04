@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="wrapper">
         <div class="">
           <div class="group center">
@@ -98,7 +98,7 @@
               <div class="input-group">
                 <div>Connect your koinos wallet to claim your tokens (<a href="https://chrome.google.com/webstore/detail/kondor/ghipkefkpgkladckmlmdnadmcchefhjl" target="_blank">Install Kondor</a>)</div>
                 <div class="button-group input-group">
-                  <button @click="connectKondor()"> 
+                  <button @click="connectKondor()">
                     <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99873 1.28487C5.98747 2.06991 6.42061 2.92927 7.2112 4.13351C7.5616 5.49754 8.09706 6.59242 8.81195 7.81067C8.60128 9.31136 9.00246 10.8485 9.64584 12.3149C9.47883 12.6232 9.38107 12.8431 9.35422 13.1714C8.79147 13.6487 8.36025 14.2107 8.03919 14.8438C7.34116 14.7017 6.7027 14.4774 6.11587 14.182C5.68578 13.7481 5.3552 13.2525 5.20052 12.7268C5.8757 12.5542 6.57166 12.2233 7.16318 11.6979C6.26406 11.9052 5.42351 11.9232 4.6945 11.6852C4.10559 10.8547 3.8202 9.91509 3.918 8.97118C4.68638 9.57745 5.55763 9.9374 6.55626 9.79419C5.46642 9.26069 4.47912 8.57448 3.74843 7.63239C3.6975 6.73208 3.92769 5.95012 4.28826 5.26187C4.94742 6.24089 5.81902 6.97502 6.71618 7.59188C5.82809 6.70048 5.12158 5.60228 4.60232 4.42077C4.81834 3.20638 5.28213 2.17936 5.99873 1.28487Z" fill="#7161EF"/>
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5442 1.28487C12.5555 2.06991 12.1224 2.92927 11.3318 4.13351C10.9814 5.49754 10.4459 6.59241 9.73102 7.81067C9.89639 8.98863 9.68478 10.1891 9.27494 11.3601C9.22023 11.5163 9.24829 13.2224 9.27748 13.2483C9.7971 13.7087 10.1998 14.2444 10.5038 14.8438C11.2018 14.7017 11.8403 14.4774 12.4271 14.182C12.8572 13.7481 13.1878 13.2525 13.3425 12.7268C12.6673 12.5542 11.9713 12.2233 11.3798 11.6979C12.2789 11.9052 13.1195 11.9232 13.8485 11.6852C14.4374 10.8547 14.7228 9.91509 14.625 8.97118C13.8566 9.57745 12.9853 9.9374 11.9867 9.79419C13.0765 9.26068 14.0638 8.57448 14.7945 7.63239C14.8455 6.73208 14.6153 5.95012 14.2547 5.26187C13.5956 6.24089 12.724 6.97501 11.8268 7.59188C12.7149 6.70047 13.4214 5.60228 13.9406 4.42077C13.7246 3.20638 13.2608 2.17936 12.5442 1.28487Z" fill="#7161EF"/>
@@ -161,7 +161,7 @@
             <div class="toggle-group left"><span>Claim with Kondor </span> <input type="checkbox" v-model="useClaimWithKondor"></div>
             <div id="group-claim" class="group step-4a">
               <div v-if="seeCLIInstructions" class="step-4b">
-                <div><a href="claim-abi.json" download target="_blank">Download claim-abi.json</a> in the koinos-cli folder. Start the CLI and run the following commands:</div>
+                <div>Start the CLI and run the following commands:</div>
                 <div style="word-break: break-all;"><p class="console">{{cliInstructions}}</p></div>
               </div>
               <div v-else-if="useClaimWithKondor" class="input-group">
@@ -219,7 +219,7 @@
       const { createApp } = Vue
       let rcLimit = 1e9;
       let defaultKoinosProvider = "https://api.koinosblocks.com";
-    
+
     createApp({
       data() {
         return {
@@ -230,7 +230,7 @@
           koinClaimed: 0,
           inputEthAddress: "",
           inputKoinAddress: "",
-          inputPayerAddress: "165Qct5sKKuxLy6fL9JGQLcPir5a8vij4u",
+          inputPayerAddress: "1MMiKZBXeiCZYEdaf4fervZG7gqKgQXkXP",
           infoEthAddress: "",
           infoKoinAddress: "",
           infoEthKoinBalance: "",
@@ -250,10 +250,10 @@
       },
       watch: {
         inputKoinAddress: function(val) {
-          this.ethMessage = `claim tkoins ${this.inputEthAddress.toLowerCase()}:${val}`;
+          this.ethMessage = `claim koins ${this.inputEthAddress.toLowerCase()}:${val}`;
         },
         inputEthAddress: function(val) {
-          this.ethMessage = `claim tkoins ${val.toLowerCase()}:${this.inputKoinAddress}`;
+          this.ethMessage = `claim koins ${val.toLowerCase()}:${this.inputKoinAddress}`;
         },
       },
       mounted() {
@@ -307,7 +307,7 @@
           }
           return new ethers.providers.Web3Provider(window.ethereum)
         },
-  
+
         consultBalanceKoinERC20: async function() {
           try {
             this.ethKoinBalance = "Loading koin (ERC20 token) balance..."
@@ -332,7 +332,7 @@
             console.error(error)
           }
         },
-  
+
         getClaimContract: function (option) {
           // const provider = kondor.provider;
           const provider = new Provider([defaultKoinosProvider]);
@@ -345,7 +345,7 @@
           }
 
           return new Contract({
-            id: "15XWhAV99fSmz8z9vrA5j9rwwBpXMPHkBQ",
+            id: "18zw3ZokdfHtudzaWAUnU4tUvKzKiJeN76",
             abi: {
               methods: {
                 claim: {
@@ -486,7 +486,7 @@
             }
           })
         },
-  
+
         consultGeneralInfo: async function () {
           try {
             const claimContract = this.getClaimContract().functions;
@@ -499,7 +499,7 @@
             this.message = `General info error: ${error.message}`
           }
         },
-  
+
         consultClaim: async function() {
           this.consultBalanceKoinERC20()
           try {
@@ -518,14 +518,14 @@
             this.claimed = `${utils.formatUnits(
               claim.value.token_amount,
               8
-            )} tKoins ${
+            )} Koins ${
               claim.value.claimed ? "already claimed" : "ready to be claimed"
             }`
           } catch (error) {
             this.claimed = `Consult claim Error: ${error.message}`
           }
         },
-  
+
         connectMetamask: async function () {
           this.message = "";
           try {
@@ -543,7 +543,7 @@
             console.log('error')
           }
         },
-  
+
         connectKondor: async function () {
           this.message = "";
           try {
@@ -567,14 +567,14 @@
           if (message !== this.ethMessage)
             throw new Error(`Expected message "${this.ethMessage}". Received "${message}"`);
         },
-  
+
         ethPersonalSign: async function () {
           this.message = "";
           try {
             const signer = this.getMetamaskProvider().getSigner()
             this.ethAddress = this.inputEthAddress;
             const signature = await signer.signMessage(this.ethMessage)
-  
+
             this.ethSignature = JSON.stringify(
               {
                 address: this.inputEthAddress,
@@ -591,7 +591,7 @@
             console.error(error)
           }
         },
-  
+
         getCompactSignature: function () {
           this.message = "";
           try {
@@ -607,7 +607,7 @@
             console.error(error)
           }
         },
-  
+
         claimKoins: async function (option) {
           this.message = "";
           try {
@@ -617,39 +617,41 @@
               koin_address: this.inputKoinAddress,
               signature: this.getCompactSignature(),
             })
-  
+
             console.log(`transaction ${transaction.id} submitted. Receipt:`)
             console.log(receipt)
-  
-            this.message = 
+
+            this.message =
               `transaction ${transaction.id} submitted. Waiting to be mined`;
-              
+
             // wait to be mined
             const blockNumber = await transaction.wait()
             console.log(`Mined in block ${blockNumber}`)
-            this.message = 
+            this.message =
               `Congratulations! Your tokens have been claimed! (<a href="https://koinosexplorer.com/tx/${transaction.id}">transaction</a>)`;
           } catch (error) {
             this.message = `Claim Error: ${error.message}`;
             console.error(error)
           }
         },
-  
+
         getKoinosCLIInstructions: function () {
           this.seeCLIInstructions = !this.seeCLIInstructions;
           if (!this.seeCLIInstructions) return;
           this.useClaimWithKondor = false;
           this.message = "";
           try {
-            this.cliInstructions = `🔓 > connect http://api.koinos.io:8080
+            this.cliInstructions = `🔓 > connect https://api.koinos.io
 
-🔓 > register claim 15XWhAV99fSmz8z9vrA5j9rwwBpXMPHkBQ claim-abi.json
+🔓 > register claim 18zw3ZokdfHtudzaWAUnU4tUvKzKiJeN76
 
 🔓 > import <set-your-private-key> imported.wallet password1234
 
 🔓 > open imported.wallet password1234${this.inputKoinAddress !== this.inputPayerAddress ? `
 
 🔓 > payer ${this.inputPayerAddress}` : ""}
+
+🔓 > rclimit 10
 
 🔓 > claim.claim ${this.infoEthAddress} ${this.inputKoinAddress} ${this.getCompactSignature()}`
           } catch (error) {
@@ -660,5 +662,5 @@
       }
     }).mount('#app')
     </script>
-  
+
 </html>
