@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <head>
     <link rel="stylesheet" href="style.css" />
@@ -157,8 +158,9 @@
           </div>
           <div v-if="step === 5" class="step-5 card">
             <div class="modal-button"><span @click="getKoinosCLIInstructions();">Claim with Koinos CLI </span></div>
+            <!-- <input type="checkbox" v-model="useClaimWithKondor"> -->
             <div class="heading">Step Five</div>
-            <div class="toggle-group left"><span>Claim with Kondor </span> <input type="checkbox" v-model="useClaimWithKondor"></div>
+            <div class="toggle-group left"><span>Claim with Kondor </span></div>
             <div id="group-claim" class="group step-4a">
               <div v-if="seeCLIInstructions" class="step-4b">
                 <div><a href="claim-abi.json" download target="_blank">Download claim-abi.json</a> in the koinos-cli folder. Start the CLI and run the following commands:</div>
