@@ -1,6 +1,6 @@
 {
   "name": "koinos-claim",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "postinstall": "copyfiles -u 3 node_modules/koilib/dist/koinos.min.js js && copyfiles -u 3 node_modules/koilib/dist/koinos.js js && copyfiles -u 3 node_modules/kondor-js/dist/kondor.min.js js && copyfiles -u 3 node_modules/kondor-js/dist/kondor.js js",
