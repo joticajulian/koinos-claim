@@ -178,7 +178,7 @@
           </div>
         </div>
         <div class="messages">
-          <div class="message">{{message}}</div>
+          <div class="message" v-html="message"></div>
         </div>
         <div id="info" class="info">
           <div id="erc-info">
@@ -200,7 +200,7 @@
       <div class="footer">
         <div>Koinos claim v{{version}}</div>
         <div>With ❤️ by <a href="https://github.com/sponsors/joticajulian">@joticajulian</a>.</div>
-        <div>Consider sending a donation to 1z629tURV9KAK6Q5yqFDozwSHeWshxXQe (Koin) or becoming a sponsor at <a href="https://github.com/sponsors/joticajulian">Github sponsors</a>
+        <div>Consider sending a donation to <a href="https://koinosblocks.com/address/1z629tURV9KAK6Q5yqFDozwSHeWshxXQe">1z629tURV9KAK6Q5yqFDozwSHeWshxXQe</a> (Koin) or becoming a sponsor at <a href="https://github.com/sponsors/joticajulian">Github sponsors</a>
       </div>
     </div>
 
@@ -625,7 +625,7 @@
             const blockNumber = await transaction.wait()
             console.log(`Mined in block ${blockNumber}`)
             this.message =
-              `Congratulations! Your tokens have been claimed! (<a href="https://koinosexplorer.com/tx/${transaction.id}">transaction</a>)`;
+              `Congratulations! Your tokens have been claimed! (<a href="https://koinosblocks.com/tx/${transaction.id}" target="_blank">transaction</a>)`;
           } catch (error) {
             this.message = `Claim Error: ${error.message}`;
             console.error(error)
