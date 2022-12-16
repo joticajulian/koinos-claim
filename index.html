@@ -155,21 +155,14 @@
           <div v-if="step === 5" class="step-5 card">
             <div class="modal-button"><span @click="getKoinosCLIInstructions();">Claim with Koinos CLI </span></div>
             <div class="heading">Step Five</div>
-            <div class="toggle-group left"><span>Claim with Kondor </span> <input type="checkbox" v-model="useClaimWithKondor"></div>
             <div id="group-claim" class="group step-4a">
               <div v-if="seeCLIInstructions" class="step-4b">
                 <div>Start the CLI and run the following commands:</div>
                 <div style="word-break: break-all;"><p class="console">{{cliInstructions}}</p></div>
               </div>
-              <div v-else-if="useClaimWithKondor" class="input-group">
+              <div v-else class="input-group">
                 <div>Claim your KOIN with Kondor</div>
                 <button @click="claimKoins('use-kondor')">CLAIM KOIN</button>
-              </div>
-              <div v-else class="input-group">
-                <div>Claim your KOIN without the koin signature.
-                  Make sure the koin address is a compressed address and you have the private key.
-                </div>
-                <button @click="claimKoins()">CLAIM KOIN</button>
               </div>
             </div>
             <div class="flow-buttons">
@@ -239,7 +232,6 @@
           useManualEthAddress: false,
           useManualKoinAddress: false,
           useManualPayerAddress: false,
-          useClaimWithKondor: true,
           cliInstructions: "",
           ethSignature: "",
           ethMessage: "",
@@ -509,8 +501,12 @@
               eth_address: this.inputEthAddress,
             })
             this.infoEthAddress = this.inputEthAddress
-            if (!claim || !claim.value) {
-              const errorMessage = `No claim data found for address ${this.inputEthAddress}`
+            if (!claim || !claim.value || !claim.value.token_amount) {
+              const errorMessage = [
+                "Only the eth addresses holding tokens before",
+                "Oct-31-2022 04:02:23 AM +UTC are entitled to claim.",
+                `No claim data found for address ${this.inputEthAddress}`,
+              ].join(" ");
               this.claimed = errorMessage
               console.log(claim)
               throw new Error(errorMessage)
@@ -522,7 +518,9 @@
               claim.value.claimed ? "already claimed" : "ready to be claimed"
             }`
           } catch (error) {
-            this.claimed = `Consult claim Error: ${error.message}`
+            this.claimed = `Consult claim Error`;
+            this.message = `Consult claim Error: ${error.message}`;
+            console.error(error)
           }
         },
 
@@ -535,13 +533,15 @@
             })
             this.inputEthAddress = accounts[0]
             this.infoEthAddress = accounts[0]
-            this.consultClaim()
             document.getElementById("info").classList.remove("hidden")
           } catch (error) {
             this.message = `MM Connect Error: ${error.message}`;
             console.error(error)
             console.log('error')
           }
+
+          this.consultClaim();
+          document.getElementById("info").classList.remove("hidden");
         },
 
         connectKondor: async function () {
@@ -566,6 +566,10 @@
           const message = ethers.utils.toUtf8String(ethers.utils.arrayify(sig.msg));
           if (message !== this.ethMessage)
             throw new Error(`Expected message "${this.ethMessage}". Received "${message}"`);
+          const realSigner = this.getEthAddressFromSignature();
+          if (realSigner.toLowerCase() !== this.inputEthAddress.toLowerCase()) {
+            throw new Error(`The message must be signed by ${this.inputEthAddress}. However, it is currently signed by ${realSigner}`);
+          }
         },
 
         ethPersonalSign: async function () {
@@ -608,6 +612,11 @@
           }
         },
 
+        getEthAddressFromSignature: function () {
+          const ethSignature = JSON.parse(this.ethSignature)
+          return ethers.utils.verifyMessage(this.ethMessage, "0x"+ethSignature.sig);
+        },
+
         claimKoins: async function (option) {
           this.message = "";
           try {
@@ -630,6 +639,23 @@
             this.message =
               `Congratulations! Your tokens have been claimed! (<a href="https://koinosblocks.com/tx/${transaction.id}" target="_blank">transaction</a>)`;
           } catch (error) {
+            if (error.message.includes("account 1MMiKZBXeiCZYEdaf4fervZG7gqKgQXkXP has not authorized transaction")) {
+              error.message = [
+                `There are no tokens to claim for address ${this.inputEthAddress}.`,
+                "The possible reason is that the tokens have already been claimed or",
+                "the address is not entitled to claim",
+                "(Only the eth addresses holding tokens before",
+                "Oct-31-2022 04:02:23 AM +UTC are entitled to claim)"
+              ].join(" ");
+            }
+            if (error.message.includes("ethereum address mismatch")) {
+              error.message = [
+                `ethereum address mismatch. Go back to step 3`,
+                `and make sure to sign the message with the address`,
+                `${this.inputEthAddress}.`,
+                `The message is currently signed by ${this.getEthAddressFromSignature()}`,
+              ].join(" ");
+            }
             this.message = `Claim Error: ${error.message}`;
             console.error(error)
           }
@@ -638,7 +664,6 @@
         getKoinosCLIInstructions: function () {
           this.seeCLIInstructions = !this.seeCLIInstructions;
           if (!this.seeCLIInstructions) return;
-          this.useClaimWithKondor = false;
           this.message = "";
           try {
             this.cliInstructions = `🔓 > connect https://api.koinos.io
