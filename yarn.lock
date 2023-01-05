@@ -103,6 +103,11 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@roamin/my-koinos-wallet-sdk@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@roamin/my-koinos-wallet-sdk/-/my-koinos-wallet-sdk-0.0.4.tgz#7c013a71c377360c40ffc24cbd6ce81d823333c2"
+  integrity sha512-c+rc0wG6QhCPwAyPE+HR8MMurMS3sDIkazeUMxIjS2vBHbhA+VUNoozqNJ1t+x7+jfXqrTNbKlj3UwTLxeue6Q==
+
 "@types/node@>=13.7.0":
   version "18.7.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.6.tgz#31743bc5772b6ac223845e18c3fc26f042713c83"
