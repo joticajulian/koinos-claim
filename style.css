@@ -193,12 +193,11 @@ textarea {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  width: 81%;
-  position: absolute;
+  width: 100%;
   bottom: 24px;
 }
 .flow img {
-  width:20%;
+  width: 20%;
 }
 .modal-button {
   width: 100%;
@@ -414,6 +413,7 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   padding: 1em;
   border: 1px solid var(--purple);
   border-radius: 4px;
