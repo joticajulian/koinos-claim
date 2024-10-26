@@ -40,15 +40,15 @@
   resolved "https://registry.yarnpkg.com/@multiformats/base-x/-/base-x-4.0.1.tgz#95ff0fa58711789d53aefb2590a8b7a4e715d121"
   integrity sha512-eMk0b9ReBbV23xXU693TAIrLyeO5iTgBZGSJfpqriG8UkYvr/hC9u9pyMlAakDNHWmbhMZCDs6KQO0jzKD8OTw==
 
-"@noble/hashes@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.2.tgz#e9e035b9b166ca0af657a7848eb2718f0f22f183"
-  integrity sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA==
+"@noble/hashes@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.1.tgz#8831ef002114670c603c458ab8b11328406953a9"
+  integrity sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==
 
-"@noble/secp256k1@^1.6.3":
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.6.3.tgz#7eed12d9f4404b416999d0c87686836c4c5c9b94"
-  integrity sha512-T04e4iTurVy7I8Sw4+c5OSN9/RkPlo1uKxAomtxQNLq8j1uPAqnsqG1bqvY3Jv7c13gyr6dui0zmh/I3+f/JaQ==
+"@noble/secp256k1@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.7.1.tgz#b251c70f824ce3ca7f8dc3df08d58f005cc0507c"
+  integrity sha512-hOUk6AyBFmqVrv7k5WAw/LpszxVbj9gGN4JRkIX52fdFAj1UA61KXmZDvqVEm+pOyec3+fIeZB02LYa/pWOArw==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -102,6 +102,18 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
+
+"@roamin/koinos-pb-to-proto@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@roamin/koinos-pb-to-proto/-/koinos-pb-to-proto-0.0.3.tgz#7c8bb6c65ee3cfcb6e889f6a3969bed01647303a"
+  integrity sha512-FR7hOtTM+COIMPBXpR6gc1HlJvFzioGgbAod9h7QAF527ACCF6xQG5mNyTSM65PrpbUVu/SA51O4Itp9BvZlTg==
+  dependencies:
+    google-protobuf "^3.21.0"
+
+"@roamin/my-koinos-wallet-sdk@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@roamin/my-koinos-wallet-sdk/-/my-koinos-wallet-sdk-0.0.4.tgz#7c013a71c377360c40ffc24cbd6ce81d823333c2"
+  integrity sha512-c+rc0wG6QhCPwAyPE+HR8MMurMS3sDIkazeUMxIjS2vBHbhA+VUNoozqNJ1t+x7+jfXqrTNbKlj3UwTLxeue6Q==
 
 "@types/node@>=13.7.0":
   version "18.7.6"
@@ -733,6 +745,11 @@ globals@^12.1.0:
   dependencies:
     type-fest "^0.8.1"
 
+google-protobuf@^3.21.0:
+  version "3.21.2"
+  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.21.2.tgz#4580a2bea8bbb291ee579d1fefb14d6fa3070ea4"
+  integrity sha512-3MSOYFO5U9mPGikIYCzK0SaThypfGgS6bHqrUGXG3DPHCrb+txNqeEcns1W0lkGfk0rCyNXm7xB9rMxnCiZOoA==
+
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
@@ -881,23 +898,24 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
   integrity sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==
 
-koilib@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/koilib/-/koilib-5.2.0.tgz#6970268b3eb701542b661d361cfa6c17b90e8fbd"
-  integrity sha512-15gFUyQ6dBtWlYDoeuxvw9lW53HYpIN6O8HMTcyEgV8/fV5+PbT4bcjFClMOKObGMLoHjofQhTMKibpuue4MSg==
+koilib@^5.6.1:
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/koilib/-/koilib-5.6.1.tgz#72f61455959ce00c23ec19d99467cb75e999985b"
+  integrity sha512-Ulon6gOYIVf11XzQ18BwY/p6VHdQ3JyIgqgZ/RsATg/VuUUvWoZ8w4nPNBBMohPhXh5lmu/O1E/wQ8BGxfpEvg==
   dependencies:
-    "@noble/hashes" "^1.1.2"
-    "@noble/secp256k1" "^1.6.3"
+    "@noble/hashes" "^1.3.1"
+    "@noble/secp256k1" "^1.7.1"
+    "@roamin/koinos-pb-to-proto" "^0.0.3"
     cross-fetch "^3.1.5"
     multibase "^4.0.6"
-    protobufjs "^7.0.0"
+    protobufjs "^7.2.4"
 
-kondor-js@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/kondor-js/-/kondor-js-0.3.2.tgz#aab2a263cdc624b41bcf36c207ea61a35a661bec"
-  integrity sha512-8mqMwv5Ce/0F+rS/bq7nSZmY9wntb+JLrkrDe4ZRIwzU7v65GX9AqlqqyL0sXqHic+lDnoSeVyOKhFROZ8mN/Q==
+kondor-js@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/kondor-js/-/kondor-js-0.4.3.tgz#b4072a3dbcc30bf6b7caf4ecc5ff10a969b04355"
+  integrity sha512-y7gemU6uCoUQeajT9fYj5uuCqg8kUYCWdy/RA4+09ejf87gJUavImsnrdz3jp+5U4q6jiQtZQ/cGUDOe9kXh3A==
   dependencies:
-    koilib "^5.2.0"
+    koilib "^5.6.1"
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
@@ -1120,10 +1138,10 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-protobufjs@^7.0.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.1.0.tgz#5174b5f96fad4f7dea7dd4abd594042ac360e665"
-  integrity sha512-rCuxKlh0UQKSMjrpIcTLbR5TtGQ52cgs1a5nUoPBAKOccdPblN67BJtjrbtudUJK6HmBvUdsmymyYOzO7lxZEA==
+protobufjs@^7.2.4:
+  version "7.2.4"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.2.4.tgz#3fc1ec0cdc89dd91aef9ba6037ba07408485c3ae"
+  integrity sha512-AT+RJgD2sH8phPmCf7OUZR8xGdcJRga4+1cOaXJ64hvcSkVhNcRHOwIxUatPH15+nj59WAGTDv3LSGZPEQbJaQ==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
