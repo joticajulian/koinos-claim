@@ -1,6 +1,6 @@
 {
   "name": "koinos-claim",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "private": true,
   "scripts": {
     "postinstall": "copyfiles -u 3 node_modules/koilib/dist/koinos.min.js js && copyfiles -u 3 node_modules/koilib/dist/koinos.js js && copyfiles -u 3 node_modules/kondor-js/dist/kondor.min.js js && copyfiles -u 3 node_modules/kondor-js/dist/kondor.js js && copyfiles -u 4 node_modules/@roamin/my-koinos-wallet-sdk/dist/my-koinos-wallet-sdk.module.js js",
